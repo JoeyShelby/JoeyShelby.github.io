@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"joeyshelby.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="计算机网络学习 之 数据链路层">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络学习-3-数据链路层">
+<meta property="og:url" content="https://joeyshelby.github.io/2021/12/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/index.html">
+<meta property="og:site_name" content="JoeyShelby">
+<meta property="og:description" content="计算机网络学习 之 数据链路层">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218094721155.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218100531127.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218100737729.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218100849363.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218101054032.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218101202756.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218101251009.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218101549479.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218101825613.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218102951919.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218103717540.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218104000892.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218103917981.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218104149521.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218104815604.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218104958939.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218135425045.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218135553251.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218135836722.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218140000653.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218140137453.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218140320775.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218140745484.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218141403992.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218202040055.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218202618035.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218202954989.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218203759335.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218203936904.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218204220264.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218204402022.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218204536391.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218204650298.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218204719180.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219144458110.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219144607947.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219144731807.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219145013817.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219145205771.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219145510410.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219151522195.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219151846665.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219151933149.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219152542461.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219153643859.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219154453575.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219154833084.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219155302783.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219155334580.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219155412511.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219155431853.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219155458913.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219155512003.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219155727828.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219155957647.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219160152820.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219160321906.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219160649607.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219161730165.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219161919205.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219183151740.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219183857087.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219184050340.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219184808722.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219185119286.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219185354703.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219185531130.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219185638346.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219185955785.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219190103731.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219190437108.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219190843386.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219191331201.png">
+<meta property="article:published_time" content="2021-12-20T02:07:23.000Z">
+<meta property="article:modified_time" content="2021-12-20T02:07:23.371Z">
+<meta property="article:author" content="Joey Shelby">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218094721155.png">
+
+<link rel="canonical" href="https://joeyshelby.github.io/2021/12/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>计算机网络学习-3-数据链路层 | JoeyShelby</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?dabbff456ff5e13554335fb1ef9b3f60";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">JoeyShelby</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">北海，要多想</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-留言板">
+
+    <a href="/guestbook/" rel="section"><i class="fa fa-book fa-fw"></i>留言板</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://joeyshelby.github.io/2021/12/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Joey Shelby">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JoeyShelby">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          计算机网络学习-3-数据链路层
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-20 10:07:23" itemprop="dateCreated datePublished" datetime="2021-12-20T10:07:23+08:00">2021-12-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <div class="post-description">计算机网络学习 之 数据链路层</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="1-概述"><a href="#1-概述" class="headerlink" title="1.  概述"></a>1.  概述</h1><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218094721155.png" alt="image-20211218094721155"></p>
+<p>数据链路层要解决的三个重要问题：</p>
+<ol>
+<li>封装成帧</li>
+<li>差错检测</li>
+<li>可靠传输 </li>
+</ol>
+<h1 id="2-封装成帧"><a href="#2-封装成帧" class="headerlink" title="2. 封装成帧"></a>2. 封装成帧</h1><p>​    <strong>封装成帧</strong>是指数据链路层给上层交付的协议数据单元添加帧头和帧尾使之成为帧。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">帧头和帧尾中包含有重要的控制信息。</span><br><span class="line">帧头和帧尾的作用之一就是帧定界。</span><br></pre></td></tr></table></figure>
+
+<p>​    <strong>透明传输</strong>是指数据链路层对上层交付的传输数据没有任何限制，就好像数据链路层不存在一样。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">面向字节的物理链路使用 字节填充（字符填充）的方法实现透明传输。</span><br><span class="line">面向比特的物理链路使用 比特填充 的方法实现透明传输。</span><br></pre></td></tr></table></figure>
+
+<h1 id="3-差错检测"><a href="#3-差错检测" class="headerlink" title="3. 差错检测"></a>3. 差错检测</h1><h2 id="3-1-概念"><a href="#3-1-概念" class="headerlink" title="3.1 概念"></a>3.1 概念</h2><p><strong>比特差错</strong>：实际的通信链路都不是理想的，比特在传输过程中可能会产生差错：1可能会变成0，而0也可能会变成1。</p>
+<p><strong>误码率BER</strong>（Bit Error Rate）：在一段时间内，传输错误的比特占所传输的比特总数的比率。</p>
+<p>使用<strong>差错检测码</strong>来检测数据在传输过程中是否产生了比特差错，是数据链路层所要解决的重要问题之一。</p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218100531127.png" alt="image-20211218100531127"></p>
+<h2 id="3-2-奇偶校验"><a href="#3-2-奇偶校验" class="headerlink" title="3.2 奇偶校验"></a>3.2 奇偶校验</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218100737729.png" alt="image-20211218100737729"></p>
+<h2 id="3-3-CRC-循环冗余校验"><a href="#3-3-CRC-循环冗余校验" class="headerlink" title="3.3 CRC 循环冗余校验"></a>3.3 CRC 循环冗余校验</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218100849363.png" alt="image-20211218100849363"></p>
+<p>例题：</p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218101054032.png" alt="image-20211218101054032"></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218101202756.png" alt="image-20211218101202756"></p>
+<h2 id="3-4-总结"><a href="#3-4-总结" class="headerlink" title="3.4 总结"></a>3.4 总结</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218101251009.png" alt="image-20211218101251009"></p>
+<h1 id="4-可靠传输"><a href="#4-可靠传输" class="headerlink" title="4. 可靠传输"></a>4. 可靠传输</h1><h2 id="4-1-概念"><a href="#4-1-概念" class="headerlink" title="4.1 概念"></a>4.1 概念</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218101549479.png" alt="image-20211218101549479"></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218101825613.png" alt="image-20211218101825613"></p>
+<h2 id="4-2-可靠传输的实现机制-停止-等待协议SW"><a href="#4-2-可靠传输的实现机制-停止-等待协议SW" class="headerlink" title="4.2 可靠传输的实现机制 - 停止-等待协议SW"></a>4.2 可靠传输的实现机制 - 停止-等待协议SW</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218102951919.png" alt="image-20211218102951919"></p>
+<h2 id="4-3-可靠传输的实现机制-回退N帧协议GBN"><a href="#4-3-可靠传输的实现机制-回退N帧协议GBN" class="headerlink" title="4.3 可靠传输的实现机制 - 回退N帧协议GBN"></a>4.3 可靠传输的实现机制 - 回退N帧协议GBN</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218103717540.png" alt="image-20211218103717540"></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218104000892.png" alt="image-20211218104000892"></p>
+<p>例题：<img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218103917981.png" alt="image-20211218103917981"></p>
+<h2 id="4-4-可靠传输的实现机制-选择重传协议SR"><a href="#4-4-可靠传输的实现机制-选择重传协议SR" class="headerlink" title="4.4 可靠传输的实现机制 - 选择重传协议SR"></a>4.4 可靠传输的实现机制 - 选择重传协议SR</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218104149521.png" alt="image-20211218104149521"></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218104815604.png" alt="image-20211218104815604"></p>
+<p>例题：</p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218104958939.png" alt="image-20211218104958939"></p>
+<h1 id="5-点对点协议PPP"><a href="#5-点对点协议PPP" class="headerlink" title="5. 点对点协议PPP"></a>5. 点对点协议PPP</h1><h2 id="5-1-概念"><a href="#5-1-概念" class="headerlink" title="5.1 概念"></a>5.1 概念</h2><p>点对点协议PPP（Point-to-Point Protocol）是目前使用最广泛的点对点数据链路层协议。</p>
+<p>PPP协议为在点对点链路传输各种协议数据报提供了一个标准方法，主要由以下三部分构成：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">对个协议数据包的封装方法：封装成帧</span><br><span class="line">链路控制协议LCP：用于建立、配置以及测试数据链路的连接</span><br><span class="line">一套网络控制协议NCPs：其中每一个协议支持不同的网络层协议</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218135425045.png" alt="image-20211218135425045"></p>
+<h2 id="5-2-帧格式"><a href="#5-2-帧格式" class="headerlink" title="5.2 帧格式"></a>5.2 帧格式</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218135553251.png" alt="image-20211218135553251"></p>
+<h2 id="5-3-透明传输"><a href="#5-3-透明传输" class="headerlink" title="5.3 透明传输"></a>5.3 透明传输</h2><ol>
+<li>面向字节的异步电路采用填入转义字符的<strong>字节填充法</strong></li>
+</ol>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218135836722.png" alt="image-20211218135836722"></p>
+<ol start="2">
+<li>面向比特的同步链路采用插入比特0的<strong>比特填充法</strong></li>
+</ol>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218140000653.png" alt="image-20211218140000653"></p>
+<h2 id="5-4-差错检测"><a href="#5-4-差错检测" class="headerlink" title="5.4 差错检测"></a>5.4 差错检测</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218140137453.png" alt="image-20211218140137453"></p>
+<h2 id="5-5-工作状态"><a href="#5-5-工作状态" class="headerlink" title="5.5 工作状态"></a>5.5 工作状态</h2><p>  <img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218140320775.png" alt="image-20211218140320775"></p>
+<h1 id="6-媒体接入控制"><a href="#6-媒体接入控制" class="headerlink" title="6. 媒体接入控制"></a>6. 媒体接入控制</h1><h2 id="6-1-概念"><a href="#6-1-概念" class="headerlink" title="6.1 概念"></a>6.1 概念</h2><p>共享信道着重考虑的一个问题就是如何协调多个发送和接受站点对一个共享传输媒体的占用，即<strong>媒体接入控制MAC</strong>（Medium Access Control）。</p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218140745484.png" alt="image-20211218140745484"></p>
+<p>​    随着技术的发展，交换技术的成熟和成本的降低，具有更高性能的使用点对点链路和链路层交换机的交换是局域网在有线领域已完全取代了共享式局域网，但由于无线信道的广播天性，<strong>无线局域网仍然使用的是共享媒体技术</strong>。</p>
+<h2 id="6-2-静态划分信道方式"><a href="#6-2-静态划分信道方式" class="headerlink" title="6.2 静态划分信道方式"></a>6.2 静态划分信道方式</h2><p>信道复用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">复用（Multiplexing）是通信技术中的一个重要概念。复用就是通过一条物理线路同时传输多路用户的信号。</span><br><span class="line">当网络中传输媒体的传输容量大于多条单一信道传输的总通信量时，可利用复用技术在一条物理线路上建立多条通信信道来充分利用传输媒体的带宽。</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218141403992.png" alt="image-20211218141403992"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">常见的复用技术：</span><br><span class="line">频分复用FDM ：频分复用的所有用户同时占用不同的频带资源并行通信。</span><br><span class="line">时分复用TDM ：时分复用的所有用户在不同的时间占用同样的频带宽度。</span><br><span class="line">波分复用WDM ：即光的频分复用</span><br><span class="line">码分复用CDM ：码分复用CDM是另一种共享信道的方法。实际上，由于该技术主要用于多址接入，人们更常用的名词是CDMA。</span><br></pre></td></tr></table></figure>
+
+<p>码分多址CDMA</p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218202040055.png" alt="image-20211218202040055"></p>
+<p>例题：</p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218202618035.png" alt="image-20211218202618035"></p>
+<h2 id="6-3-动态接入控制方式-CSMA-CD"><a href="#6-3-动态接入控制方式-CSMA-CD" class="headerlink" title="6.3 动态接入控制方式 - CSMA/CD"></a>6.3 动态接入控制方式 - CSMA/CD</h2><p><strong>载波监听多址接入/碰撞检测 CSMA/CD</strong></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218202954989.png" alt="image-20211218202954989"></p>
+<p>CSMA/CD协议 - <strong>争用期</strong>（碰撞窗口）</p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218203759335.png" alt="image-20211218203759335"></p>
+<p>CSMA/CD协议 - <strong>最小帧长</strong></p>
+<p>要在发的过程中检测到传输时的碰撞</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">最小帧长 = 争用期 x 数据传输速率</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218203936904.png" alt="image-20211218203936904"></p>
+<p>CSMA/CD协议 - <strong>最大帧长</strong></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218204220264.png" alt="image-20211218204220264"></p>
+<p>CSMA/CD协议 - <strong>截断二进制指数退避算法</strong></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218204402022.png" alt="image-20211218204402022"></p>
+<p>CSMA/CD协议 - <strong>信道利用率</strong></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218204536391.png" alt="image-20211218204536391"></p>
+<p>CSMA/CD协议 - <strong>帧发送流程</strong></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218204650298.png" alt="image-20211218204650298"></p>
+<p>CSMA/CD协议 - <strong>帧接收流程</strong></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211218204719180.png" alt="image-20211218204719180"></p>
+<h2 id="6-4-动态接入控制方式-CSMA-CA"><a href="#6-4-动态接入控制方式-CSMA-CA" class="headerlink" title="6.4 动态接入控制方式 - CSMA/CA"></a>6.4 动态接入控制方式 - CSMA/CA</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219144458110.png" alt="image-20211219144458110"></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219144607947.png" alt="image-20211219144607947"></p>
+<p><strong>CSMA/CA协议 - 帧间间隔</strong></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219144731807.png" alt="image-20211219144731807"></p>
+<p><strong>CSMA/CA协议 - 工作原理</strong></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219145013817.png" alt="image-20211219145013817"></p>
+<p><strong>CSMA/CA协议 - 退避算法</strong></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219145205771.png" alt="image-20211219145205771"></p>
+<p>举例：</p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219145510410.png" alt="image-20211219145510410"></p>
+<h1 id="7-MAC地址、IP地址以及ARP协议"><a href="#7-MAC地址、IP地址以及ARP协议" class="headerlink" title="7. MAC地址、IP地址以及ARP协议"></a>7. MAC地址、IP地址以及ARP协议</h1><ol>
+<li><p>MAC地址是以太网的MAC子层所使用的地址。</p>
+</li>
+<li><p>IP地址是TCP/IP体系结构网际层所使用的地址。</p>
+</li>
+<li><p>ARP协议属于TCP/IP体系结构的网际层，其作用是已知设备所分配到的IP得知，使用ARP协议可以通过该IP地址获取到设备的MAC地址。</p>
+</li>
+</ol>
+<h2 id="7-1-Mac地址（数据链路层）"><a href="#7-1-Mac地址（数据链路层）" class="headerlink" title="7.1 Mac地址（数据链路层）"></a>7.1 Mac地址（数据链路层）</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><ol>
+<li><p>当多个主机连接在同一个广播信道上，要想实现两个主机间的通信，则每个主机都必须有一个唯一的标识，即一个数据链路层地址。</p>
+</li>
+<li><p>在每个主机发送的帧中必须携带标识发送主机和接受主机的地址。由于这类地址适用于媒体介入控制MAC(Media Access Control)，因此这类地址被称为MAC地址。</p>
+</li>
+</ol>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219151522195.png" alt="image-20211219151522195"></p>
+<ol start="3">
+<li><p>MAC地址一般被固化在网卡的点可擦除只读存储器EEPROM中，因此MAC地址也被称为硬件地址。</p>
+</li>
+<li><p>MAC地址有时也被称为物理地址，但<strong>这并不代表MAC地址属于网络体系结构中的物理层</strong>。</p>
+</li>
+</ol>
+<p>例题：</p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219151846665.png" alt="image-20211219151846665"></p>
+<p><strong>注意</strong></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219151933149.png" alt="image-20211219151933149"></p>
+<h3 id="MAC地址的格式"><a href="#MAC地址的格式" class="headerlink" title="MAC地址的格式"></a>MAC地址的格式</h3><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219152542461.png" alt="image-20211219152542461"></p>
+<h3 id="MAC帧的类型"><a href="#MAC帧的类型" class="headerlink" title="MAC帧的类型"></a>MAC帧的类型</h3><ol>
+<li>单播帧：收到的帧的MAC地址与本站的硬件地址相同。</li>
+<li>广播帧：发送给本局域网上所有节点的帧（全1地址）</li>
+<li>多播帧：发送给本局域网上一部分站点的帧。（上图中第一字节最后一位为1，即第一字节的十六进制数不能整除2）</li>
+</ol>
+<h3 id="随机MAC地址"><a href="#随机MAC地址" class="headerlink" title="随机MAC地址"></a>随机MAC地址</h3><p>为了安全，动态改变设备的MAC地址。</p>
+<h2 id="7-2-IP地址（网络层）-概述"><a href="#7-2-IP地址（网络层）-概述" class="headerlink" title="7.2 IP地址（网络层） 概述"></a>7.2 IP地址（网络层） 概述</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219153643859.png" alt="image-20211219153643859"></p>
+<p>例题：</p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219154453575.png" alt="image-20211219154453575"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">在数据包的转发过程中，IP地址始终保持不变；而MAC地址逐网络改变。</span><br><span class="line">上面这句话，可以很好的说明数据链路层和IP层的作用，也能很好的说明为什么MAC地址不能替代IP地址，更体现了计算机网络体系分层的必要性。</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-3-ARP协议"><a href="#7-3-ARP协议" class="headerlink" title="7.3 ARP协议"></a>7.3 ARP协议</h2><p> 解决的问题：如何通过IP地址找到其相应的MAC地址。</p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219154833084.png" alt="image-20211219154833084"></p>
+<p>工作原理</p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219155302783.png" alt="image-20211219155302783"></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219155334580.png" alt="image-20211219155334580"></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219155412511.png" alt="image-20211219155412511"></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219155431853.png" alt="image-20211219155431853"></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219155458913.png" alt="image-20211219155458913"></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219155512003.png" alt="image-20211219155512003"></p>
+<p>注意：ARP协议只能逐段网络使用，而不能跨网络使用</p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219155727828.png" alt="image-20211219155727828"></p>
+<p>ARP协议存在安全性问题，如ARP攻击，ARP欺骗等。</p>
+<h1 id="8-集线器与交换机的区别"><a href="#8-集线器与交换机的区别" class="headerlink" title="8. 集线器与交换机的区别"></a>8. 集线器与交换机的区别</h1><h2 id="8-1-早期的总线型以太网"><a href="#8-1-早期的总线型以太网" class="headerlink" title="8.1 早期的总线型以太网"></a>8.1 早期的总线型以太网</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219155957647.png" alt="image-20211219155957647"></p>
+<h2 id="8-2-使用双绞线和集线器HUB的星型以太网"><a href="#8-2-使用双绞线和集线器HUB的星型以太网" class="headerlink" title="8.2 使用双绞线和集线器HUB的星型以太网"></a>8.2 使用双绞线和集线器HUB的星型以太网</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219160152820.png" alt="image-20211219160152820"></p>
+<p>可以将集线器抽象成总线，因为其只进行简单的转发工作。</p>
+<h2 id="8-3-使用集线器HUB在物理层扩展以太网"><a href="#8-3-使用集线器HUB在物理层扩展以太网" class="headerlink" title="8.3 使用集线器HUB在物理层扩展以太网"></a>8.3 使用集线器HUB在物理层扩展以太网</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219160321906.png" alt="image-20211219160321906"></p>
+<h2 id="8-4-以太网交换机"><a href="#8-4-以太网交换机" class="headerlink" title="8.4 以太网交换机"></a>8.4 以太网交换机</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219160649607.png" alt="image-20211219160649607"></p>
+<h2 id="8-5-对比集线器和交换机"><a href="#8-5-对比集线器和交换机" class="headerlink" title="8.5 对比集线器和交换机"></a>8.5 对比集线器和交换机</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219161730165.png" alt="image-20211219161730165"></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219161919205.png" alt="image-20211219161919205"></p>
+<p>总结：</p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219183151740.png" alt="image-20211219183151740"></p>
+<h1 id="9-以太网交换机自学习和转发帧的过程"><a href="#9-以太网交换机自学习和转发帧的过程" class="headerlink" title="9. 以太网交换机自学习和转发帧的过程"></a>9. 以太网交换机自学习和转发帧的过程</h1><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219183857087.png" alt="image-20211219183857087"></p>
+<p>例题：</p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219184050340.png" alt="image-20211219184050340"></p>
+<h1 id="10-以太网交换机的生成树协议STP"><a href="#10-以太网交换机的生成树协议STP" class="headerlink" title="10. 以太网交换机的生成树协议STP"></a>10. 以太网交换机的生成树协议STP</h1><h2 id="问题：如何提高以太网的可靠性？"><a href="#问题：如何提高以太网的可靠性？" class="headerlink" title="问题：如何提高以太网的可靠性？"></a>问题：如何提高以太网的可靠性？</h2><p>解决思想：<strong>添加冗余链路</strong>可以提高以太网的可靠性。</p>
+<p>但是，冗余链路也会带来负面效应——<strong>形成网络环路</strong>。</p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219184808722.png" alt="image-20211219184808722"></p>
+<h2 id="生成树协议STP"><a href="#生成树协议STP" class="headerlink" title="生成树协议STP"></a>生成树协议STP</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219185119286.png" alt="image-20211219185119286"></p>
+<h1 id="11-虚拟局域网VLAN"><a href="#11-虚拟局域网VLAN" class="headerlink" title="11. 虚拟局域网VLAN"></a>11. 虚拟局域网VLAN</h1><h2 id="11-1-概念"><a href="#11-1-概念" class="headerlink" title="11.1 概念"></a>11.1 概念</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219185354703.png" alt="image-20211219185354703"></p>
+<p><strong>分割广播域的方法：</strong></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219185531130.png" alt="image-20211219185531130"></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219185638346.png" alt="image-20211219185638346"></p>
+<h2 id="11-2-VLAN的实现机制"><a href="#11-2-VLAN的实现机制" class="headerlink" title="11.2 VLAN的实现机制"></a>11.2 VLAN的实现机制</h2><p>VLAN技术是在数据链路层的交换机上实现的，需要交换机实现以下两个功能：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1. IEEE 802.1Q帧</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219185955785.png" alt="image-20211219185955785"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2. 交换机的端口类型</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219190103731.png" alt="image-20211219190103731"></p>
+<p><strong>Access端口</strong></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219190437108.png" alt="image-20211219190437108"></p>
+<p><strong>Trunk端口</strong></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219190843386.png" alt="image-20211219190843386"></p>
+<p><strong>Hybrid端口</strong></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-3-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20211219191331201.png" alt="image-20211219191331201"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"># 计算机网络</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-2-%E7%89%A9%E7%90%86%E5%B1%82/" rel="prev" title="计算机网络学习-2-物理层">
+      <i class="fa fa-chevron-left"></i> 计算机网络学习-2-物理层
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/12/20/Docker%E5%AD%A6%E4%B9%A0-6-%E9%95%9C%E5%83%8F%E5%8E%9F%E7%90%86/" rel="next" title="Dockder学习-6-镜像原理">
+      Dockder学习-6-镜像原理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0"><span class="nav-text">1.  概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%B0%81%E8%A3%85%E6%88%90%E5%B8%A7"><span class="nav-text">2. 封装成帧</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E5%B7%AE%E9%94%99%E6%A3%80%E6%B5%8B"><span class="nav-text">3. 差错检测</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E6%A6%82%E5%BF%B5"><span class="nav-text">3.1 概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E5%A5%87%E5%81%B6%E6%A0%A1%E9%AA%8C"><span class="nav-text">3.2 奇偶校验</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-CRC-%E5%BE%AA%E7%8E%AF%E5%86%97%E4%BD%99%E6%A0%A1%E9%AA%8C"><span class="nav-text">3.3 CRC 循环冗余校验</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-%E6%80%BB%E7%BB%93"><span class="nav-text">3.4 总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93"><span class="nav-text">4. 可靠传输</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E6%A6%82%E5%BF%B5"><span class="nav-text">4.1 概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6-%E5%81%9C%E6%AD%A2-%E7%AD%89%E5%BE%85%E5%8D%8F%E8%AE%AESW"><span class="nav-text">4.2 可靠传输的实现机制 - 停止-等待协议SW</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6-%E5%9B%9E%E9%80%80N%E5%B8%A7%E5%8D%8F%E8%AE%AEGBN"><span class="nav-text">4.3 可靠传输的实现机制 - 回退N帧协议GBN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6-%E9%80%89%E6%8B%A9%E9%87%8D%E4%BC%A0%E5%8D%8F%E8%AE%AESR"><span class="nav-text">4.4 可靠传输的实现机制 - 选择重传协议SR</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E7%82%B9%E5%AF%B9%E7%82%B9%E5%8D%8F%E8%AE%AEPPP"><span class="nav-text">5. 点对点协议PPP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-%E6%A6%82%E5%BF%B5"><span class="nav-text">5.1 概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-%E5%B8%A7%E6%A0%BC%E5%BC%8F"><span class="nav-text">5.2 帧格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-%E9%80%8F%E6%98%8E%E4%BC%A0%E8%BE%93"><span class="nav-text">5.3 透明传输</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4-%E5%B7%AE%E9%94%99%E6%A3%80%E6%B5%8B"><span class="nav-text">5.4 差错检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-5-%E5%B7%A5%E4%BD%9C%E7%8A%B6%E6%80%81"><span class="nav-text">5.5 工作状态</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-%E5%AA%92%E4%BD%93%E6%8E%A5%E5%85%A5%E6%8E%A7%E5%88%B6"><span class="nav-text">6. 媒体接入控制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-%E6%A6%82%E5%BF%B5"><span class="nav-text">6.1 概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-%E9%9D%99%E6%80%81%E5%88%92%E5%88%86%E4%BF%A1%E9%81%93%E6%96%B9%E5%BC%8F"><span class="nav-text">6.2 静态划分信道方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-%E5%8A%A8%E6%80%81%E6%8E%A5%E5%85%A5%E6%8E%A7%E5%88%B6%E6%96%B9%E5%BC%8F-CSMA-CD"><span class="nav-text">6.3 动态接入控制方式 - CSMA&#x2F;CD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-4-%E5%8A%A8%E6%80%81%E6%8E%A5%E5%85%A5%E6%8E%A7%E5%88%B6%E6%96%B9%E5%BC%8F-CSMA-CA"><span class="nav-text">6.4 动态接入控制方式 - CSMA&#x2F;CA</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-MAC%E5%9C%B0%E5%9D%80%E3%80%81IP%E5%9C%B0%E5%9D%80%E4%BB%A5%E5%8F%8AARP%E5%8D%8F%E8%AE%AE"><span class="nav-text">7. MAC地址、IP地址以及ARP协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-Mac%E5%9C%B0%E5%9D%80%EF%BC%88%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%EF%BC%89"><span class="nav-text">7.1 Mac地址（数据链路层）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MAC%E5%9C%B0%E5%9D%80%E7%9A%84%E6%A0%BC%E5%BC%8F"><span class="nav-text">MAC地址的格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MAC%E5%B8%A7%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="nav-text">MAC帧的类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BAMAC%E5%9C%B0%E5%9D%80"><span class="nav-text">随机MAC地址</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-IP%E5%9C%B0%E5%9D%80%EF%BC%88%E7%BD%91%E7%BB%9C%E5%B1%82%EF%BC%89-%E6%A6%82%E8%BF%B0"><span class="nav-text">7.2 IP地址（网络层） 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-3-ARP%E5%8D%8F%E8%AE%AE"><span class="nav-text">7.3 ARP协议</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-%E9%9B%86%E7%BA%BF%E5%99%A8%E4%B8%8E%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">8. 集线器与交换机的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-1-%E6%97%A9%E6%9C%9F%E7%9A%84%E6%80%BB%E7%BA%BF%E5%9E%8B%E4%BB%A5%E5%A4%AA%E7%BD%91"><span class="nav-text">8.1 早期的总线型以太网</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-2-%E4%BD%BF%E7%94%A8%E5%8F%8C%E7%BB%9E%E7%BA%BF%E5%92%8C%E9%9B%86%E7%BA%BF%E5%99%A8HUB%E7%9A%84%E6%98%9F%E5%9E%8B%E4%BB%A5%E5%A4%AA%E7%BD%91"><span class="nav-text">8.2 使用双绞线和集线器HUB的星型以太网</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-3-%E4%BD%BF%E7%94%A8%E9%9B%86%E7%BA%BF%E5%99%A8HUB%E5%9C%A8%E7%89%A9%E7%90%86%E5%B1%82%E6%89%A9%E5%B1%95%E4%BB%A5%E5%A4%AA%E7%BD%91"><span class="nav-text">8.3 使用集线器HUB在物理层扩展以太网</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-4-%E4%BB%A5%E5%A4%AA%E7%BD%91%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="nav-text">8.4 以太网交换机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-5-%E5%AF%B9%E6%AF%94%E9%9B%86%E7%BA%BF%E5%99%A8%E5%92%8C%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="nav-text">8.5 对比集线器和交换机</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9-%E4%BB%A5%E5%A4%AA%E7%BD%91%E4%BA%A4%E6%8D%A2%E6%9C%BA%E8%87%AA%E5%AD%A6%E4%B9%A0%E5%92%8C%E8%BD%AC%E5%8F%91%E5%B8%A7%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="nav-text">9. 以太网交换机自学习和转发帧的过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#10-%E4%BB%A5%E5%A4%AA%E7%BD%91%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%9A%84%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AESTP"><span class="nav-text">10. 以太网交换机的生成树协议STP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%EF%BC%9A%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E4%BB%A5%E5%A4%AA%E7%BD%91%E7%9A%84%E5%8F%AF%E9%9D%A0%E6%80%A7%EF%BC%9F"><span class="nav-text">问题：如何提高以太网的可靠性？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AESTP"><span class="nav-text">生成树协议STP</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#11-%E8%99%9A%E6%8B%9F%E5%B1%80%E5%9F%9F%E7%BD%91VLAN"><span class="nav-text">11. 虚拟局域网VLAN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#11-1-%E6%A6%82%E5%BF%B5"><span class="nav-text">11.1 概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-2-VLAN%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6"><span class="nav-text">11.2 VLAN的实现机制</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Joey Shelby</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JoeyShelby" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;JoeyShelby" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Joey Shelby</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : '59k15km9hcS7J8OtNBnuaeoR-gzGzoHsz',
+      appKey     : 'gt0mb96SaYTb4n65WcyBdzDC',
+      placeholder: "留下些什么吧\n上方的个人信息均非必填\n但我希望你能填入昵称和你的个人网站或github链接，我们互相交流学习",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
