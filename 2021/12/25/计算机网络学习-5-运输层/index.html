@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"joeyshelby.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="计算机网络学习 之 运输层">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络学习-5-运输层">
+<meta property="og:url" content="https://joeyshelby.github.io/2021/12/25/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/index.html">
+<meta property="og:site_name" content="JoeyShelby">
+<meta property="og:description" content="计算机网络学习 之 运输层">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224105812668.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224110137683.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224110342752.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224110433560.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224111250171.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224111413885.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224111536322.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224111701312.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224111826795.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224111932988.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224111952611.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224114118056.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224114303910.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224155328246.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224155637887.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224155832216.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224155946657.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224160936441.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224163156532.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224164112184.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224163655194.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224163835220.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224164030777.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224164527695.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224170255030.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224170601292.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224171204606.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224171421615.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224175430416.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224175831907.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224175938106.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224180037657.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224180053899.png">
+<meta property="article:published_time" content="2021-12-25T08:46:09.000Z">
+<meta property="article:modified_time" content="2021-12-25T08:46:09.266Z">
+<meta property="article:author" content="Joey Shelby">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://joeyshelby.github.io/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224105812668.png">
+
+<link rel="canonical" href="https://joeyshelby.github.io/2021/12/25/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>计算机网络学习-5-运输层 | JoeyShelby</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?dabbff456ff5e13554335fb1ef9b3f60";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">JoeyShelby</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">北海，要多想</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-留言板">
+
+    <a href="/guestbook/" rel="section"><i class="fa fa-book fa-fw"></i>留言板</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://joeyshelby.github.io/2021/12/25/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Joey Shelby">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JoeyShelby">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          计算机网络学习-5-运输层
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-25 16:46:09" itemprop="dateCreated datePublished" datetime="2021-12-25T16:46:09+08:00">2021-12-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/25/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/25/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <div class="post-description">计算机网络学习 之 运输层</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="1-运输层概述"><a href="#1-运输层概述" class="headerlink" title="1. 运输层概述"></a>1. 运输层概述</h1><p>​    之前学习的计算机网络体系结构中的<strong>物理层、数据链路层以及网络层</strong>他们共同解决了将主机通过异构网络互连起来所面临的问题，<strong>实现了主机到主机的通信</strong>。</p>
+<p>​    但实际在计算机网络中进行<strong>通信的真正实体是位于通信两端主机中的进程</strong></p>
+<p>​    <strong>如何为运行在不同主机上的应用进程提供直接的通信服务使运输层的任务</strong>，运输层协议又称为端到端协议。</p>
+<p>​    运输层向高层用户屏蔽了下面网络核心的细节（如网络拓扑，所采用的路由选择协议等），它<strong>使应用进程看见的就好像是在两个运输层实体之间有一条端到端的逻辑通信信道。</strong></p>
+<p>​    <img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224105812668.png" alt="image-20211224105812668"></p>
+<p>​    根据应用需求的不同，因特网的运输层为应用层提供了两种不同的运输协议，即<strong>面向连接的TCP和无连接的UDP</strong>。</p>
+<h1 id="2-运输层端口号、复用与分用"><a href="#2-运输层端口号、复用与分用" class="headerlink" title="2. 运输层端口号、复用与分用"></a>2. 运输层端口号、复用与分用</h1><h2 id="2-1-运输层端口号"><a href="#2-1-运输层端口号" class="headerlink" title="2.1 运输层端口号"></a>2.1 运输层端口号</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224110137683.png" alt="image-20211224110137683"></p>
+<h2 id="2-2-发送方的复用和接收方的分用"><a href="#2-2-发送方的复用和接收方的分用" class="headerlink" title="2.2 发送方的复用和接收方的分用"></a>2.2 发送方的复用和接收方的分用</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224110342752.png" alt="image-20211224110342752"></p>
+<p>应用层常用协议所使用的运输层熟知端口号：</p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224110433560.png" alt="image-20211224110433560"></p>
+<h1 id="3-UDP和TCP的对比"><a href="#3-UDP和TCP的对比" class="headerlink" title="3. UDP和TCP的对比"></a>3. UDP和TCP的对比</h1><p>UDP和TCP是TCP/IP体系结构运输层中的两个重要协议。</p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224111250171.png" alt="image-20211224111250171"></p>
+<h2 id="3-1-面向连接"><a href="#3-1-面向连接" class="headerlink" title="3.1 面向连接"></a>3.1 面向连接</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224111413885.png" alt="image-20211224111413885"></p>
+<h2 id="3-2-单播、多播及广播"><a href="#3-2-单播、多播及广播" class="headerlink" title="3.2 单播、多播及广播"></a>3.2 单播、多播及广播</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224111536322.png" alt="image-20211224111536322"></p>
+<h2 id="3-3-对应用报文的的处理"><a href="#3-3-对应用报文的的处理" class="headerlink" title="3.3 对应用报文的的处理"></a>3.3 对应用报文的的处理</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224111701312.png" alt="image-20211224111701312"></p>
+<h2 id="3-4-可靠传输服务"><a href="#3-4-可靠传输服务" class="headerlink" title="3.4 可靠传输服务"></a>3.4 可靠传输服务</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224111826795.png" alt="image-20211224111826795"></p>
+<h2 id="3-5-首部"><a href="#3-5-首部" class="headerlink" title="3.5 首部"></a>3.5 首部</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224111932988.png" alt="image-20211224111932988"></p>
+<h2 id="3-6-总结"><a href="#3-6-总结" class="headerlink" title="3.6 总结"></a>3.6 总结</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224111952611.png" alt="=-"></p>
+<h1 id="4-TCP的流量控制"><a href="#4-TCP的流量控制" class="headerlink" title="4. TCP的流量控制"></a>4. TCP的流量控制</h1><p>​    一般来说，我们总是希望数据传输地更快一些。但是如果发送方把数据发送得过快，接收方就可能来不及接收，这就会造成数据的丢失。</p>
+<p>​    所谓流量控制（flow control）就是<strong>让发送方的发送速率不要太快，要让接收方来得及接收。</strong></p>
+<p>​    利用<strong>滑动窗口机制</strong>就可以很方便地在TCP连接上实现对发送方地流量控制。</p>
+<p>​    TCP接收方利用自己的<strong>接收窗口</strong>地大小来限制发送方<strong>发送窗口</strong>的大小。</p>
+<p>​    TCP发送方收到接收方的<strong>零窗口通知</strong>后，应启动<strong>持续计时器</strong>。持续计时器超时后，向接收方发送<strong>零窗口探测报文</strong>。</p>
+<h1 id="5-TCP的拥塞控制"><a href="#5-TCP的拥塞控制" class="headerlink" title="5. TCP的拥塞控制"></a>5. TCP的拥塞控制</h1><h2 id="5-1-概述"><a href="#5-1-概述" class="headerlink" title="5.1 概述"></a>5.1 概述</h2><p>​    在某段时间，若<strong>对网络中某一资源的需求超过了该资源所能提供的可用部分，网络性能就要变坏。</strong>这种情况就叫做拥塞（在计算机网络中的链路容量[即带宽]，交换节点中的缓存和处理机等，都是网络的资源）。</p>
+<p>​    若<strong>出现拥塞而不进行控制</strong>，整个网络的<strong>吞吐量将随输入负荷的增大而下降。</strong></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224114118056.png" alt="image-20211224114118056"></p>
+<h2 id="5-2-拥塞控制算法"><a href="#5-2-拥塞控制算法" class="headerlink" title="5.2 拥塞控制算法"></a>5.2 拥塞控制算法</h2><h3 id="慢开始-拥塞避免"><a href="#慢开始-拥塞避免" class="headerlink" title="慢开始 + 拥塞避免"></a>慢开始 + 拥塞避免</h3><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224114303910.png" alt="image-20211224114303910"></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224155328246.png" alt="image-20211224155328246"></p>
+<h3 id="快重传-快恢复"><a href="#快重传-快恢复" class="headerlink" title="快重传 + 快恢复"></a>快重传 + 快恢复</h3><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224155637887.png" alt="image-20211224155637887"></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224155832216.png" alt="image-20211224155832216"></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224155946657.png" alt="image-20211224155946657"></p>
+<h1 id="6-TCP超时重传时间的选择"><a href="#6-TCP超时重传时间的选择" class="headerlink" title="6. TCP超时重传时间的选择"></a>6. TCP超时重传时间的选择</h1><h2 id="6-1-超时重传时间的选择"><a href="#6-1-超时重传时间的选择" class="headerlink" title="6.1 超时重传时间的选择"></a>6.1 超时重传时间的选择</h2><p>设RTT为一个TCP数据报文段的往返时间；</p>
+<p>若超时重传时间RTO小于往返时间RTT时，会引起发送端不必要的重传，浪费网络资源。</p>
+<p>若超时重传时间RTO远大于往返时间RTT时，会使网络的空闲时间增大，降低了传输效率。</p>
+<p>故：<strong>超时重传时间RTO的值应略大于往返时间RTT</strong></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224160936441.png" alt="image-20211224160936441"></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224163156532.png" alt="image-20211224163156532"></p>
+<h2 id="6-2-超时重传时间的计算"><a href="#6-2-超时重传时间的计算" class="headerlink" title="6.2 超时重传时间的计算"></a>6.2 超时重传时间的计算</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224164112184.png" alt="image-20211224164112184"></p>
+<h2 id="6-3-往返时间RTT的测量比较复杂"><a href="#6-3-往返时间RTT的测量比较复杂" class="headerlink" title="6.3 往返时间RTT的测量比较复杂"></a>6.3 往返时间RTT的测量比较复杂</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224163655194.png" alt="image-20211224163655194"></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224163835220.png" alt="image-20211224163835220"></p>
+<h2 id="6-4-例题"><a href="#6-4-例题" class="headerlink" title="6.4 例题"></a>6.4 例题</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224164030777.png" alt="image-20211224164030777"></p>
+<h1 id="7-TCP可靠传输的实现"><a href="#7-TCP可靠传输的实现" class="headerlink" title="7. TCP可靠传输的实现"></a>7. TCP可靠传输的实现</h1><h2 id="7-1-TCP基于以字节为单位的滑动窗口来实现可靠传输"><a href="#7-1-TCP基于以字节为单位的滑动窗口来实现可靠传输" class="headerlink" title="7.1 TCP基于以字节为单位的滑动窗口来实现可靠传输"></a>7.1 TCP基于以字节为单位的滑动窗口来实现可靠传输</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224164527695.png" alt="image-20211224164527695"></p>
+<h2 id="7-2-总结"><a href="#7-2-总结" class="headerlink" title="7.2 总结"></a>7.2 总结</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224170255030.png" alt="image-20211224170255030"></p>
+<h1 id="8-TCP的运输连接管理"><a href="#8-TCP的运输连接管理" class="headerlink" title="8. TCP的运输连接管理"></a>8. TCP的运输连接管理</h1><h2 id="8-1-概述"><a href="#8-1-概述" class="headerlink" title="8.1 概述"></a>8.1 概述</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224170601292.png" alt="image-20211224170601292"></p>
+<h2 id="8-2-TCP的连接建立"><a href="#8-2-TCP的连接建立" class="headerlink" title="8.2 TCP的连接建立"></a>8.2 TCP的连接建立</h2><h3 id="TCP的建立连接要解决的三个问题："><a href="#TCP的建立连接要解决的三个问题：" class="headerlink" title="TCP的建立连接要解决的三个问题："></a>TCP的建立连接要解决的三个问题：</h3><ol>
+<li>使TCP双方能够确知对方的存在。</li>
+<li>使TCP双方能够协商一些参数（如最大窗口值，是否使用窗口扩大选项和时间戳选项以及服务质量等）。</li>
+<li>使TCP双方能够对运输实体资源（如缓存大小，连接表中的项目等）进行分配。</li>
+</ol>
+<h3 id="TCP“三报文握手”"><a href="#TCP“三报文握手”" class="headerlink" title="TCP“三报文握手”"></a>TCP“三报文握手”</h3><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224171204606.png" alt="image-20211224171204606"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">-------发送TCP连接请求-------&gt;</span><br><span class="line">同步位SYN=1的报文段为TCP连接请求报文段。</span><br><span class="line">序号字段seq=x作为TCP客户进程所选择的初始序号。</span><br><span class="line">TCP规定SYN=1的报文段不能携带数据，但要消耗掉一个序号。</span><br><span class="line"></span><br><span class="line">&lt;-----发送针对TCP连接请求的确认-----</span><br><span class="line">SYN=1,ACK=1的报文段为TCP连接请求确认报文段。</span><br><span class="line">序号字段seq=y作为TCP服务器所选择的初始序号。</span><br><span class="line">ack=x+1表示对TCP客户进程所选择的初始序号的确认。</span><br><span class="line">TCP规定SYN=1的报文段不能携带数据，但要消耗掉一个序号。</span><br><span class="line"></span><br><span class="line">---发送针对TCP连接请求的确认的确认---&gt;</span><br><span class="line">ACK=1表示这是一个普通的TCP确认报文段。</span><br><span class="line">seq=x+1表示第二个报文段。</span><br><span class="line">TCP规定普通的TCP确认报文段可以携带数据，但如果不携带数据，则不消耗序号。所以这种情况下，下一个发送的数据报文段的序号仍为x+1。</span><br><span class="line">ack=y+1是对TCP服务器发送的针对TCP连接请求的确认报文的确认。</span><br></pre></td></tr></table></figure>
+
+<p><strong>问什么不能简化为“两报文握手”？</strong></p>
+<p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224171421615.png" alt="image-20211224171421615"></p>
+<p>​    采用“三报文握手”而不采用“两报文握手”是为了<strong>防止失效的连接请求报文突然又传送到了TCP服务器</strong>，因而导致错误。</p>
+<h2 id="8-3-TCP的连接释放"><a href="#8-3-TCP的连接释放" class="headerlink" title="8.3 TCP的连接释放"></a>8.3 TCP的连接释放</h2><h3 id="TCP“四报文挥手”"><a href="#TCP“四报文挥手”" class="headerlink" title="TCP“四报文挥手”"></a>TCP“四报文挥手”</h3><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224175430416.png" alt="image-20211224175430416"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">---发送TCP连接释放---&gt;</span><br><span class="line">终止位FIN=1，确认位ACK=1。表明这是一个TCP连接释放报文段。</span><br><span class="line">序号字段seq=u,等于TCP客户进程之前已经传送过的数据的最后一个字节的序号加一。</span><br><span class="line">TCP规定：终止位FIN=1的报文段不携带数据，但要消耗掉一个序号。</span><br><span class="line">确认号ack=v，等于TCP客户进程之前已收到的数据的最后一个字节的序号加一。</span><br><span class="line"></span><br><span class="line">&lt;---发送TCP普通确认---</span><br><span class="line">确认位ACK=1，表明这是一个普通的TCP确认报文段。</span><br><span class="line">序号字段seq=v，等于TCP服务进程之前已经传送过的数据的最后一个字节的序号加一。也与之前TCP连接释放报文中的ack字段的值匹配。</span><br><span class="line">确认号ack=u+1，这是对TCP连接释放报文段的确认。</span><br><span class="line">-----------------------------------------------</span><br><span class="line">这时从TCP客户进程到TCP服务进程方向的连接就关闭了。此时TCP连接处于半关闭状态。</span><br><span class="line">此时TCP客户进程已经没有数据要发送了，但是若TCP服务进程发送数据，TCP客户进程仍要接收。</span><br><span class="line">-----------------------------------------------</span><br><span class="line">&lt;---发送TCP释放连接---</span><br><span class="line">终止位FIN=1，确认位ACK=1。表明这是一个TCP连接释放报文段。</span><br><span class="line">序号字段seq=w，在半关闭状态，TCP服务进程可能又发送了一些数据。</span><br><span class="line">确认号ack=u+1，这是对之前TCP客户进程发送的TCP连接释放报文段的重复确认。</span><br><span class="line"></span><br><span class="line">---发送TCP普通确认---&gt;</span><br><span class="line">确认位ACK=1，表明这是一个普通的TCP确认报文段。</span><br><span class="line">序号字段seq=u+1。TCP客户进程之前发送的TCP连接释放报文段虽然不携带数据，但要消耗掉一个序号。</span><br><span class="line">确认字段ack=w+1。这是对所收到的TCP服务器进程发送的普通TCP普通确认报文段的确认。</span><br></pre></td></tr></table></figure>
+
+<h3 id="为什么TCP客户进程最后要TIME-WAIT？"><a href="#为什么TCP客户进程最后要TIME-WAIT？" class="headerlink" title="为什么TCP客户进程最后要TIME-WAIT？"></a>为什么TCP客户进程最后要TIME-WAIT？</h3><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224175831907.png" alt="image-20211224175831907"></p>
+<h3 id="保活计时器"><a href="#保活计时器" class="headerlink" title="保活计时器"></a>保活计时器</h3><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224175938106.png" alt="image-20211224175938106"></p>
+<h1 id="9-TCP报文段的首部格式"><a href="#9-TCP报文段的首部格式" class="headerlink" title="9. TCP报文段的首部格式"></a>9. TCP报文段的首部格式</h1><h2 id="9-1-概述"><a href="#9-1-概述" class="headerlink" title="9.1 概述"></a>9.1 概述</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224180037657.png" alt="image-20211224180037657"></p>
+<h2 id="9-2-首部格式"><a href="#9-2-首部格式" class="headerlink" title="9.2 首部格式"></a>9.2 首部格式</h2><p><img src="/images/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-5-%E8%BF%90%E8%BE%93%E5%B1%82/image-20211224180053899.png" alt="image-20211224180053899"></p>
+<h3 id="源端口"><a href="#源端口" class="headerlink" title="源端口"></a>源端口</h3><p>占16比特，写入源端口号，用来<strong>标识发送该TCP报文段的应用进程。</strong></p>
+<h3 id="目的端口"><a href="#目的端口" class="headerlink" title="目的端口"></a>目的端口</h3><p>占16比特，写入源端口号，用来<strong>标识接收该TCP报文段的应用进程。</strong></p>
+<h3 id="序号"><a href="#序号" class="headerlink" title="序号"></a>序号</h3><p>占32bit，取值范围[0,2<sup>32</sup> - 1]，序号增加到最后一个后，下一个序号就又回到0。</p>
+<p><strong>用于指出本TCP报文段数据载荷的第一个字节的序号。</strong></p>
+<h3 id="确认号"><a href="#确认号" class="headerlink" title="确认号"></a>确认号</h3><p>占32bit，取值范围[0,2<sup>32</sup> - 1]，确认号增加到最后一个后，下一个序号就又回到0。</p>
+<p><strong>用于指出期望收到对方下一个TCP报文段的数据载荷的第一个字节的序号，同时也是对之前收到的所有数据的确认。</strong></p>
+<p>理解：若确认号=n，则表明到序号n-1为止的所有数据都已被正确接收，期望接受序号为n的数据。</p>
+<h3 id="紧急标志位URG"><a href="#紧急标志位URG" class="headerlink" title="紧急标志位URG"></a>紧急标志位URG</h3><p>取值为1时紧急指针字段有效；取值为0时紧急指针字段无效。</p>
+<h3 id="确认标志位ACK"><a href="#确认标志位ACK" class="headerlink" title="确认标志位ACK"></a>确认标志位ACK</h3><p><strong>取值为1时确认号字段才有效</strong>；取值为0时确认号字段无效。</p>
+<p>TCP规定，在连接建立后所有传送的TCP报文段都必须把ACK置1。</p>
+<h3 id="推送标志位PSH"><a href="#推送标志位PSH" class="headerlink" title="推送标志位PSH"></a>推送标志位PSH</h3><p>接送方的TCP收到该标志为为1的报文段会尽快上交应用进程，而不必等到接收缓存都填满后再向上交付。</p>
+<h3 id="复位标志位RST"><a href="#复位标志位RST" class="headerlink" title="复位标志位RST"></a>复位标志位RST</h3><p>用来复位TCP连接。</p>
+<p>当RST=1时，表明TCP连接出现了异常，必须释放连接，然后再重新建立连接。</p>
+<p>RST置1还用来拒绝一个非法的报文段或拒绝打开一个TCP连接。</p>
+<h3 id="同步标志位SYN"><a href="#同步标志位SYN" class="headerlink" title="同步标志位SYN"></a>同步标志位SYN</h3><p>在TCP建立连接时用来同步序号。（三报文握手）</p>
+<h3 id="终止标志位FIN"><a href="#终止标志位FIN" class="headerlink" title="终止标志位FIN"></a>终止标志位FIN</h3><p>用来释放TCP连接。（四报文挥手）</p>
+<h3 id="数据偏移"><a href="#数据偏移" class="headerlink" title="数据偏移"></a>数据偏移</h3><p>占4bit，并以4byte为单位。</p>
+<p><strong>用来指出TCP报文段的数据载荷部分的起始处距离TCP报文段的起始处有多远。</strong></p>
+<p>这个字段实际上是指出了TCP报文段的首部长度。</p>
+<p>​    首部固定长度为20字节，因此数据偏移字段的最小值为(0101)</p>
+<p>​    首部最大长度为60字节，因此数据偏移字段的最小值为(1111)</p>
+<h3 id="保留"><a href="#保留" class="headerlink" title="保留"></a>保留</h3><p>占6bit，保留为今后使用，但目前应置为0。</p>
+<h3 id="窗口"><a href="#窗口" class="headerlink" title="窗口"></a>窗口</h3><p>占16bit，以字节为单位。指出发送本报文段的一方的接收窗口。</p>
+<p>窗口值作为作为接收方让发送方设置其发送窗口的依据。</p>
+<p>这是以接收方的接受能力来控制发送方的发送能力，成为流量控制。</p>
+<h3 id="校验和"><a href="#校验和" class="headerlink" title="校验和"></a>校验和</h3><p>占16bit，检查范围包括TCP报文段的首部和数据载荷两部分。</p>
+<p>在计算校验和时，要在TCP报文段的前面加上12字节的伪首部。</p>
+<h3 id="紧急指针"><a href="#紧急指针" class="headerlink" title="紧急指针"></a>紧急指针</h3><p>占16bit，以字节为单位，用来指明紧急数据的长度。</p>
+<p>当发送方有紧急数据时，可将紧急数据插队到发送缓存的最前面，并立刻封装到一个TCP报文段中进行发送。紧急指针会指出本报文段数据载荷部分包含了多长的紧急数据，紧急数据之后时普通数据。</p>
+<h3 id="选项（长度可变）"><a href="#选项（长度可变）" class="headerlink" title="选项（长度可变）"></a>选项（长度可变）</h3><ol>
+<li>最大报文段长度MSS选项：TCP报文段数据载荷部分的最大长度。</li>
+<li>窗口扩大选项：为了扩大窗口（提高吞吐率）。</li>
+<li>时间戳选项：  用来计算往返时间RTT 或 用于处理序号超范围的情况，又称为防止序号绕回PAWS。</li>
+<li>选择确认选项</li>
+</ol>
+<h3 id="填充"><a href="#填充" class="headerlink" title="填充"></a>填充</h3><p>由于选项的长度可变，因此使用填充来确保报文段首部能被4整除（因为数据偏移字段，也就是首部长度字段，是以4字节为单位的）。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"># 计算机网络</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/25/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-4-%E7%BD%91%E7%BB%9C%E5%B1%82/" rel="prev" title="计算机网络学习-4-网络层">
+      <i class="fa fa-chevron-left"></i> 计算机网络学习-4-网络层
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/12/25/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0-6-%E5%BA%94%E7%94%A8%E5%B1%82/" rel="next" title="计算机网络学习-6-应用层">
+      计算机网络学习-6-应用层 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E8%BF%90%E8%BE%93%E5%B1%82%E6%A6%82%E8%BF%B0"><span class="nav-text">1. 运输层概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E8%BF%90%E8%BE%93%E5%B1%82%E7%AB%AF%E5%8F%A3%E5%8F%B7%E3%80%81%E5%A4%8D%E7%94%A8%E4%B8%8E%E5%88%86%E7%94%A8"><span class="nav-text">2. 运输层端口号、复用与分用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E8%BF%90%E8%BE%93%E5%B1%82%E7%AB%AF%E5%8F%A3%E5%8F%B7"><span class="nav-text">2.1 运输层端口号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E5%8F%91%E9%80%81%E6%96%B9%E7%9A%84%E5%A4%8D%E7%94%A8%E5%92%8C%E6%8E%A5%E6%94%B6%E6%96%B9%E7%9A%84%E5%88%86%E7%94%A8"><span class="nav-text">2.2 发送方的复用和接收方的分用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-UDP%E5%92%8CTCP%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="nav-text">3. UDP和TCP的对比</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E9%9D%A2%E5%90%91%E8%BF%9E%E6%8E%A5"><span class="nav-text">3.1 面向连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E5%8D%95%E6%92%AD%E3%80%81%E5%A4%9A%E6%92%AD%E5%8F%8A%E5%B9%BF%E6%92%AD"><span class="nav-text">3.2 单播、多播及广播</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E5%AF%B9%E5%BA%94%E7%94%A8%E6%8A%A5%E6%96%87%E7%9A%84%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-text">3.3 对应用报文的的处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E6%9C%8D%E5%8A%A1"><span class="nav-text">3.4 可靠传输服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-%E9%A6%96%E9%83%A8"><span class="nav-text">3.5 首部</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-6-%E6%80%BB%E7%BB%93"><span class="nav-text">3.6 总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-TCP%E7%9A%84%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6"><span class="nav-text">4. TCP的流量控制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-TCP%E7%9A%84%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6"><span class="nav-text">5. TCP的拥塞控制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-%E6%A6%82%E8%BF%B0"><span class="nav-text">5.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E7%AE%97%E6%B3%95"><span class="nav-text">5.2 拥塞控制算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%85%A2%E5%BC%80%E5%A7%8B-%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D"><span class="nav-text">慢开始 + 拥塞避免</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E9%87%8D%E4%BC%A0-%E5%BF%AB%E6%81%A2%E5%A4%8D"><span class="nav-text">快重传 + 快恢复</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-TCP%E8%B6%85%E6%97%B6%E9%87%8D%E4%BC%A0%E6%97%B6%E9%97%B4%E7%9A%84%E9%80%89%E6%8B%A9"><span class="nav-text">6. TCP超时重传时间的选择</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-%E8%B6%85%E6%97%B6%E9%87%8D%E4%BC%A0%E6%97%B6%E9%97%B4%E7%9A%84%E9%80%89%E6%8B%A9"><span class="nav-text">6.1 超时重传时间的选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-%E8%B6%85%E6%97%B6%E9%87%8D%E4%BC%A0%E6%97%B6%E9%97%B4%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="nav-text">6.2 超时重传时间的计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-%E5%BE%80%E8%BF%94%E6%97%B6%E9%97%B4RTT%E7%9A%84%E6%B5%8B%E9%87%8F%E6%AF%94%E8%BE%83%E5%A4%8D%E6%9D%82"><span class="nav-text">6.3 往返时间RTT的测量比较复杂</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-4-%E4%BE%8B%E9%A2%98"><span class="nav-text">6.4 例题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-TCP%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-text">7. TCP可靠传输的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-TCP%E5%9F%BA%E4%BA%8E%E4%BB%A5%E5%AD%97%E8%8A%82%E4%B8%BA%E5%8D%95%E4%BD%8D%E7%9A%84%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%9D%A5%E5%AE%9E%E7%8E%B0%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93"><span class="nav-text">7.1 TCP基于以字节为单位的滑动窗口来实现可靠传输</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-%E6%80%BB%E7%BB%93"><span class="nav-text">7.2 总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-TCP%E7%9A%84%E8%BF%90%E8%BE%93%E8%BF%9E%E6%8E%A5%E7%AE%A1%E7%90%86"><span class="nav-text">8. TCP的运输连接管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-1-%E6%A6%82%E8%BF%B0"><span class="nav-text">8.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-2-TCP%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%BB%BA%E7%AB%8B"><span class="nav-text">8.2 TCP的连接建立</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP%E7%9A%84%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5%E8%A6%81%E8%A7%A3%E5%86%B3%E7%9A%84%E4%B8%89%E4%B8%AA%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="nav-text">TCP的建立连接要解决的三个问题：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP%E2%80%9C%E4%B8%89%E6%8A%A5%E6%96%87%E6%8F%A1%E6%89%8B%E2%80%9D"><span class="nav-text">TCP“三报文握手”</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-3-TCP%E7%9A%84%E8%BF%9E%E6%8E%A5%E9%87%8A%E6%94%BE"><span class="nav-text">8.3 TCP的连接释放</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP%E2%80%9C%E5%9B%9B%E6%8A%A5%E6%96%87%E6%8C%A5%E6%89%8B%E2%80%9D"><span class="nav-text">TCP“四报文挥手”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88TCP%E5%AE%A2%E6%88%B7%E8%BF%9B%E7%A8%8B%E6%9C%80%E5%90%8E%E8%A6%81TIME-WAIT%EF%BC%9F"><span class="nav-text">为什么TCP客户进程最后要TIME-WAIT？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%9D%E6%B4%BB%E8%AE%A1%E6%97%B6%E5%99%A8"><span class="nav-text">保活计时器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9-TCP%E6%8A%A5%E6%96%87%E6%AE%B5%E7%9A%84%E9%A6%96%E9%83%A8%E6%A0%BC%E5%BC%8F"><span class="nav-text">9. TCP报文段的首部格式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#9-1-%E6%A6%82%E8%BF%B0"><span class="nav-text">9.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-2-%E9%A6%96%E9%83%A8%E6%A0%BC%E5%BC%8F"><span class="nav-text">9.2 首部格式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%90%E7%AB%AF%E5%8F%A3"><span class="nav-text">源端口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E7%9A%84%E7%AB%AF%E5%8F%A3"><span class="nav-text">目的端口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%8F%E5%8F%B7"><span class="nav-text">序号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AE%E8%AE%A4%E5%8F%B7"><span class="nav-text">确认号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B4%A7%E6%80%A5%E6%A0%87%E5%BF%97%E4%BD%8DURG"><span class="nav-text">紧急标志位URG</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AE%E8%AE%A4%E6%A0%87%E5%BF%97%E4%BD%8DACK"><span class="nav-text">确认标志位ACK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A8%E9%80%81%E6%A0%87%E5%BF%97%E4%BD%8DPSH"><span class="nav-text">推送标志位PSH</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E4%BD%8D%E6%A0%87%E5%BF%97%E4%BD%8DRST"><span class="nav-text">复位标志位RST</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E6%A0%87%E5%BF%97%E4%BD%8DSYN"><span class="nav-text">同步标志位SYN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%88%E6%AD%A2%E6%A0%87%E5%BF%97%E4%BD%8DFIN"><span class="nav-text">终止标志位FIN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%81%8F%E7%A7%BB"><span class="nav-text">数据偏移</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%9D%E7%95%99"><span class="nav-text">保留</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AA%97%E5%8F%A3"><span class="nav-text">窗口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%A1%E9%AA%8C%E5%92%8C"><span class="nav-text">校验和</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B4%A7%E6%80%A5%E6%8C%87%E9%92%88"><span class="nav-text">紧急指针</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E9%A1%B9%EF%BC%88%E9%95%BF%E5%BA%A6%E5%8F%AF%E5%8F%98%EF%BC%89"><span class="nav-text">选项（长度可变）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A1%AB%E5%85%85"><span class="nav-text">填充</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Joey Shelby</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JoeyShelby" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;JoeyShelby" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Joey Shelby</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : '59k15km9hcS7J8OtNBnuaeoR-gzGzoHsz',
+      appKey     : 'gt0mb96SaYTb4n65WcyBdzDC',
+      placeholder: "留下些什么吧\n上方的个人信息均非必填\n但我希望你能填入昵称和你的个人网站或github链接，我们互相交流学习",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
