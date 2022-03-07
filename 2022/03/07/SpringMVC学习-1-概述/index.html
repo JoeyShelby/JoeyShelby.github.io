@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/doge.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/doge.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"joeyshelby.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="SpringMVC 学习的第一部分，主要介绍了什么是 SpringMVC。并通过使用 SpringMVC 框架实现 HelloWorld 程序介绍了如何在 IDEA 中使用 SpringMVC 框架实现简单的 web 项目。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringMVC 学习-1-入门">
+<meta property="og:url" content="https://joeyshelby.github.io/2022/03/07/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/index.html">
+<meta property="og:site_name" content="JoeyShelby">
+<meta property="og:description" content="SpringMVC 学习的第一部分，主要介绍了什么是 SpringMVC。并通过使用 SpringMVC 框架实现 HelloWorld 程序介绍了如何在 IDEA 中使用 SpringMVC 框架实现简单的 web 项目。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://joeyshelby.github.io/images/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/O2A4%25F08B@HCYX2%25Y6C%2515.jpg">
+<meta property="og:image" content="https://joeyshelby.github.io/images/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/image-20220306093316268.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/image-20220307094553213.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/image-20220307094801631.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/image-20220307095016047.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/image-20220306144903279.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/image-20220306151052075.png">
+<meta property="article:published_time" content="2022-03-07T03:37:22.000Z">
+<meta property="article:modified_time" content="2022-03-07T03:39:33.879Z">
+<meta property="article:author" content="Joey Shelby">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="SpringMVC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://joeyshelby.github.io/images/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/O2A4%25F08B@HCYX2%25Y6C%2515.jpg">
+
+<link rel="canonical" href="https://joeyshelby.github.io/2022/03/07/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>SpringMVC 学习-1-入门 | JoeyShelby</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?dabbff456ff5e13554335fb1ef9b3f60";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">JoeyShelby</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">北海，要多想</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-留言板">
+
+    <a href="/guestbook/" rel="section"><i class="fa fa-book fa-fw"></i>留言板</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://joeyshelby.github.io/2022/03/07/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Joey Shelby">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JoeyShelby">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SpringMVC 学习-1-入门
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-03-07 11:37:22 / 修改时间：11:39:33" itemprop="dateCreated datePublished" datetime="2022-03-07T11:37:22+08:00">2022-03-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/SpringMVC/" itemprop="url" rel="index"><span itemprop="name">SpringMVC</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/03/07/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/07/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <div class="post-description">SpringMVC 学习的第一部分，主要介绍了什么是 SpringMVC。并通过使用 SpringMVC 框架实现 HelloWorld 程序介绍了如何在 IDEA 中使用 SpringMVC 框架实现简单的 web 项目。</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="1-课程地址"><a href="#1-课程地址" class="headerlink" title="1. 课程地址"></a>1. 课程地址</h1><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Ry4y1574R">https://www.bilibili.com/video/BV1Ry4y1574R</a></p>
+<p><img src="/images/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/O2A4%25F08B@HCYX2%25Y6C%2515.jpg" alt="img"></p>
+<h1 id="2-简介"><a href="#2-简介" class="headerlink" title="2. 简介"></a>2. 简介</h1><h2 id="2-1-什么是MVC"><a href="#2-1-什么是MVC" class="headerlink" title="2.1 什么是MVC"></a>2.1 什么是MVC</h2><p>经典MVC模式中，M是指业务模型，V是指用户界面，C则是控制器，使用MVC的目的是将M和V的实现代码分离，从而使同一个程序可以使用不同的表现形式。</p>
+<p>M(Model)：模型层，指工程中的 JavaBean（并非实体类Bean，而是业务处理Bean），作用是处理数据。</p>
+<p>V(View)：视图层，指工程中的html或jsp等页面，作用是与用户进行交互，展示数据。</p>
+<p>C(Control)：控制层，指工程中的servlet，作用是接受请求和响应浏览器。</p>
+<img src="/images/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/image-20220306093316268.png" alt="image-20220306093316268" style="zoom: 50%;" />
+
+<h2 id="2-2-什么是-SpringMVC"><a href="#2-2-什么是-SpringMVC" class="headerlink" title="2.2 什么是 SpringMVC"></a>2.2 什么是 SpringMVC</h2><p>SpringMVC 是 Spring 的一个后续产品，是 Spring的一个子项目。</p>
+<p>SpringMVC 是 Spring 为表示层开发提供的一整套完备的解决方案。  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">三层架构分别为表示层（表示层），业务逻辑层，数据访问层。表述层表示前台页面和Servlet。</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-3-SpringMVC-的特点"><a href="#2-3-SpringMVC-的特点" class="headerlink" title="2.3 SpringMVC 的特点"></a>2.3 SpringMVC 的特点</h2><ol>
+<li>轻量级，简单易学。</li>
+<li>高效，基于请求响应的MVC框架。</li>
+<li>与 Spring 兼容性好，无缝结合。</li>
+<li>约定大于配置。</li>
+<li>功能强大，简介灵活。</li>
+</ol>
+<h1 id="3-HelloWorld"><a href="#3-HelloWorld" class="headerlink" title="3.HelloWorld"></a>3.HelloWorld</h1><h2 id="3-1-开发环境"><a href="#3-1-开发环境" class="headerlink" title="3.1 开发环境"></a>3.1 开发环境</h2><p>IDE: IEDA 2021.2.3</p>
+<p>构建工具: maven 3.6.3</p>
+<p>服务器: tomcat 8.0.50</p>
+<p>Spring 版本: 5.3.16</p>
+<h2 id="3-2-创建web工程"><a href="#3-2-创建web工程" class="headerlink" title="3.2 创建web工程"></a>3.2 创建web工程</h2><ol>
+<li>创建maven工程</li>
+<li>在pom.xml中设置打包方式：war</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.joey<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>SpringMVC-demo2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">packaging</span>&gt;</span>war<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span> <span class="comment">&lt;!--手动添加--&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>引入依赖</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--SpringMVC--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-webmvc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--日志--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>logback-classic<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--ServletAPI--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javax.servlet-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--Spring5 和 Thymeleaf整合包--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>thymeleaf-spring5<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><p>将项目配置为web项目</p>
+<ol>
+<li>在项目的 src/main 路径下新建webapp目录</li>
+</ol>
+<img src="/images/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/image-20220307094553213.png" alt="image-20220307094553213" style="zoom:50%;" />
+
+<ol start="2">
+<li>在项目结构中添加 web.xml 配置文件</li>
+</ol>
+<img src="/images/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/image-20220307094801631.png" alt="image-20220307094801631" style="zoom: 50%;" />
+
+<ol start="3">
+<li>成功配置 web 项目</li>
+</ol>
+<img src="/images/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/image-20220307095016047.png" alt="image-20220307095016047" style="zoom:50%;" /></li>
+</ol>
+<h2 id="3-3-在-web-xml-中配置前端控制器"><a href="#3-3-在-web-xml-中配置前端控制器" class="headerlink" title="3.3 在 web.xml 中配置前端控制器"></a>3.3 在 web.xml 中配置前端控制器</h2><p>注册 SpringMVC 的前端控制器 DispatcherServlet。</p>
+<ol>
+<li>默认配置方式</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--配置 SpringMVC 的前端控制器，对浏览器发送的请求进行统一处理--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>SpringMVC<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>SpringMVC<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">       <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">           设置 SpringMVC 的核心控制器所能处理的请求请求路径</span></span><br><span class="line"><span class="comment">           “/” 所匹配的请求可以是 “/login”，“/html”，”.js” 或 “.css”方式的请求路径</span></span><br><span class="line"><span class="comment">           但是 “/” 不能匹配 “.jsp” 请求路径的请求</span></span><br><span class="line"><span class="comment">           </span></span><br><span class="line"><span class="comment">           因为 &quot;.jsp&quot; 需要 servlet 进行处理，而非由SpringMVC进行统一处理。</span></span><br><span class="line"><span class="comment">           所以也不能使用 “/*” ，因为 “/*” 会匹配到所有的请求。</span></span><br><span class="line"><span class="comment">       --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在这种配置方式下，SpringMVC 的配置文件默认位于 WEB-INF 下。但 maven 项目，应该将所有的配置文件都置于 resources 目录下。所以需要采用下面的扩展配置方式。</p>
+<ol start="2">
+<li><strong>扩展配置方式（一般使用）</strong></li>
+</ol>
+<p>可通过 init-param 标签设置 SpringMVC 配置文件的位置和名称，通过 load-on-startup 标签设置 SpringMVC 前端控制器 DispatherServlet 的初始化时间。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--配置 SpringMVC 的前端控制器，对浏览器发送的请求进行统一处理--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>SpringMVC<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">       <span class="comment">&lt;!--配置 SpringMVC 配置文件的位置和名称--&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:springMVC.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">       <span class="comment">&lt;!--将前端控制器 DispatcherServlet 的初始化时间提前到服务器启动时--&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">load-on-startup</span>&gt;</span>1<span class="tag">&lt;/<span class="name">load-on-startup</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>SpringMVC<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">       <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">           设置 SpringMVC 的核心控制器所能处理的请求请求路径</span></span><br><span class="line"><span class="comment">           “/” 所匹配的请求可以是 “/login”，“/html”，”.js” 或 “.css”方式的请求路径</span></span><br><span class="line"><span class="comment">           但是 “/” 不能匹配 “.jsp” 请求路径的请求</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">           因为 &quot;.jsp&quot; 需要 servlet 进行处理，而非由SpringMVC进行统一处理。</span></span><br><span class="line"><span class="comment">           所以也不能使用 “/*” ，因为 “/*” 会匹配到所有的请求。</span></span><br><span class="line"><span class="comment">       --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-4-创建请求控制器"><a href="#3-4-创建请求控制器" class="headerlink" title="3.4 创建请求控制器"></a>3.4 创建请求控制器</h2><p>由于前端控制器对浏览器发送的请求进行了统一的处理，但是具体的请求由不同的处理过程，因此需要创建处理具体请求的类，即请求控制器。</p>
+<p>请求控制器中每一个请求处理的方法称为控制器方法。</p>
+<p>因为 SpringMVC 的控制器由一个 POJO 担任，因此需要通过 @Controller 注解将其标识为一个控制层组件，交给 Spring 的 IOC 容器管理，此时 SpringMVC 才能够是被控制器的存在。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloController</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-5-配置-SpringMVC-配置文件"><a href="#3-5-配置-SpringMVC-配置文件" class="headerlink" title="3.5 配置 SpringMVC 配置文件"></a>3.5 配置 SpringMVC 配置文件</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--开启组件扫描--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;org.joey&quot;</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!--配置ThymeLeaf视图解析器--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;viewResolver&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.thymeleaf.spring5.view.ThymeleafViewResolver&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;order&quot;</span> <span class="attr">value</span>=<span class="string">&quot;1&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;characterEncoding&quot;</span> <span class="attr">value</span>=<span class="string">&quot;UTF-8&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;templateEngine&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.thymeleaf.spring5.SpringTemplateEngine&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;templateResolver&quot;</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver&quot;</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;prefix&quot;</span> <span class="attr">value</span>=<span class="string">&quot;/WEB-INF/templates/&quot;</span>/&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;suffix&quot;</span> <span class="attr">value</span>=<span class="string">&quot;.html&quot;</span>/&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;templateMode&quot;</span> <span class="attr">value</span>=<span class="string">&quot;HTML5&quot;</span>/&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;characterEncoding&quot;</span> <span class="attr">value</span>=<span class="string">&quot;UTF-8&quot;</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-6-测试-HelloWorld"><a href="#3-6-测试-HelloWorld" class="headerlink" title="3.6 测试 HelloWorld"></a>3.6 测试 HelloWorld</h2><ol>
+<li>实现对首页的访问 </li>
+</ol>
+<p>在请求控制器中创建处理请求的方法。</p>
+<p>在SpringMVC配置文件中，ThymeLeaf视图解析器所配置的前缀和后缀如下。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;prefix&quot;</span> <span class="attr">value</span>=<span class="string">&quot;/WEB-INF/templates/&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;suffix&quot;</span> <span class="attr">value</span>=<span class="string">&quot;.html&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>所以要访问/WEB-INF/templates/index.html时，只需填入index，视图解析器会自动加上前缀和后缀。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//“/” --&gt; /WEB-INF/templates/index.html</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">index</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//设置视图名称</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;index&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>跳转到指定页面</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/target&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">target</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;target&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/image-20220306144903279.png" alt="image-20220306144903279"></p>
+<h1 id="4-总结"><a href="#4-总结" class="headerlink" title="4. 总结"></a>4. 总结</h1><p>浏览器发送请求，若请求地址符合 SpringMVC 前端控制器的 url-pattern，该请求便会被前端控制器  DispatcherServlet 处理。</p>
+<p>前端控制器会读取 SpringMVC 配置文件，通过组件扫描找到控制器，将请求地址和控制器中   @RequestMapping()注解的 value 属性值进行匹配，若匹配成功，则该注解所标识的控制器方法就是就是处理请求的方法。</p>
+<p>处理请求的方法需要返回一个字符串类型的视图名称，该视图名称会被视图解析器解析，加上前缀和后缀组成视图的路径，通过ThymeLeaf对视图进行渲染，最终转发到视图所对应的页面。</p>
+<p><img src="/images/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/image-20220306151052075.png" alt="image-20220306151052075"></p>
+<p align="right">Joey</p>
+
+<p align="right">2022年3月6日</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
+              <a href="/tags/SpringMVC/" rel="tag"># SpringMVC</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/03/04/Spring%E5%AD%A6%E4%B9%A0-5-%E4%BA%8B%E5%8A%A1/" rel="prev" title="Spring学习-5-事务">
+      <i class="fa fa-chevron-left"></i> Spring学习-5-事务
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E8%AF%BE%E7%A8%8B%E5%9C%B0%E5%9D%80"><span class="nav-text">1. 课程地址</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E7%AE%80%E4%BB%8B"><span class="nav-text">2. 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E4%BB%80%E4%B9%88%E6%98%AFMVC"><span class="nav-text">2.1 什么是MVC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E4%BB%80%E4%B9%88%E6%98%AF-SpringMVC"><span class="nav-text">2.2 什么是 SpringMVC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-SpringMVC-%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-text">2.3 SpringMVC 的特点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-HelloWorld"><span class="nav-text">3.HelloWorld</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83"><span class="nav-text">3.1 开发环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E5%88%9B%E5%BB%BAweb%E5%B7%A5%E7%A8%8B"><span class="nav-text">3.2 创建web工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E5%9C%A8-web-xml-%E4%B8%AD%E9%85%8D%E7%BD%AE%E5%89%8D%E7%AB%AF%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="nav-text">3.3 在 web.xml 中配置前端控制器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-%E5%88%9B%E5%BB%BA%E8%AF%B7%E6%B1%82%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="nav-text">3.4 创建请求控制器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-%E9%85%8D%E7%BD%AE-SpringMVC-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-text">3.5 配置 SpringMVC 配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-6-%E6%B5%8B%E8%AF%95-HelloWorld"><span class="nav-text">3.6 测试 HelloWorld</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E6%80%BB%E7%BB%93"><span class="nav-text">4. 总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Joey Shelby</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JoeyShelby" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;JoeyShelby" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Joey Shelby</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : '59k15km9hcS7J8OtNBnuaeoR-gzGzoHsz',
+      appKey     : 'gt0mb96SaYTb4n65WcyBdzDC',
+      placeholder: "留下些什么吧\n上方的个人信息均非必填\n但我希望你能填入昵称和你的个人网站或github链接，我们互相交流学习",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
