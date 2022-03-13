@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/doge.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/doge.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"joeyshelby.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="RequestMapping 注解是 SpringMVC 中一个十分重要的注解。该笔记介绍了它的功能，应用的场景，各属性以及其他特性。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringMVC学习-2-RequestMapping注解">
+<meta property="og:url" content="https://joeyshelby.github.io/2022/03/13/SpringMVC%E5%AD%A6%E4%B9%A0-2-RequestMapping%E6%B3%A8%E8%A7%A3/index.html">
+<meta property="og:site_name" content="JoeyShelby">
+<meta property="og:description" content="RequestMapping 注解是 SpringMVC 中一个十分重要的注解。该笔记介绍了它的功能，应用的场景，各属性以及其他特性。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://joeyshelby.github.io/images/SpringMVC%E5%AD%A6%E4%B9%A0-2-RequestMapping%E6%B3%A8%E8%A7%A3/image-20220307105826972.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/SpringMVC%E5%AD%A6%E4%B9%A0-2-RequestMapping%E6%B3%A8%E8%A7%A3/image-20220308093741681.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/SpringMVC%E5%AD%A6%E4%B9%A0-2-RequestMapping%E6%B3%A8%E8%A7%A3/image-20220308105503611.png">
+<meta property="article:published_time" content="2022-03-13T02:24:46.000Z">
+<meta property="article:modified_time" content="2022-03-13T02:24:46.988Z">
+<meta property="article:author" content="Joey Shelby">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="SpringMVC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://joeyshelby.github.io/images/SpringMVC%E5%AD%A6%E4%B9%A0-2-RequestMapping%E6%B3%A8%E8%A7%A3/image-20220307105826972.png">
+
+<link rel="canonical" href="https://joeyshelby.github.io/2022/03/13/SpringMVC%E5%AD%A6%E4%B9%A0-2-RequestMapping%E6%B3%A8%E8%A7%A3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>SpringMVC学习-2-RequestMapping注解 | JoeyShelby</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?dabbff456ff5e13554335fb1ef9b3f60";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">JoeyShelby</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">北海，要多想</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-留言板">
+
+    <a href="/guestbook/" rel="section"><i class="fa fa-book fa-fw"></i>留言板</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://joeyshelby.github.io/2022/03/13/SpringMVC%E5%AD%A6%E4%B9%A0-2-RequestMapping%E6%B3%A8%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Joey Shelby">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JoeyShelby">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SpringMVC学习-2-RequestMapping注解
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-13 10:24:46" itemprop="dateCreated datePublished" datetime="2022-03-13T10:24:46+08:00">2022-03-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/SpringMVC/" itemprop="url" rel="index"><span itemprop="name">SpringMVC</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/03/13/SpringMVC%E5%AD%A6%E4%B9%A0-2-RequestMapping%E6%B3%A8%E8%A7%A3/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/13/SpringMVC%E5%AD%A6%E4%B9%A0-2-RequestMapping%E6%B3%A8%E8%A7%A3/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <div class="post-description">RequestMapping 注解是 SpringMVC 中一个十分重要的注解。该笔记介绍了它的功能，应用的场景，各属性以及其他特性。</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><h2 id="1-RequestMapping-注解的功能"><a href="#1-RequestMapping-注解的功能" class="headerlink" title="1 @RequestMapping 注解的功能"></a>1 @RequestMapping 注解的功能</h2><p>从注解名称上我们可以看到，@RequestMapping 注解的作用就是<strong>将请求和处理请求的控制器方法关联起来</strong>，建立映射关系。</p>
+<p>SpringMVC 接收到指定的请求，就会来找到在映射关系中对应的控制器方法来处理这个请求。</p>
+<h2 id="2-RequestMapping-注解的位置"><a href="#2-RequestMapping-注解的位置" class="headerlink" title="2  @RequestMapping 注解的位置"></a>2  @RequestMapping 注解的位置</h2><ol>
+<li>@RequestMapping 标识一个类：设置映射请求的请求路径的初始信息</li>
+<li>@RequestMapping 标识一个方法：设置映射请求的请求路径的具体信息</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*请求控制器*/</span></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/hello&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/testRequestMapping&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">login</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;login&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">&quot;@&#123;/hello/testRequestMapping&#125;&quot;</span>&gt;</span>测试 RequestMapping 注解的位置<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如上，如果请求 /testRequestMapping ，因为类上配置了初始信息 @RequestMapping(“/hello”) ，则需要加上 /hello 才能访问到 /testRequestMapping 。</p>
+<h2 id="3-RequestMapping-注解的-value-属性"><a href="#3-RequestMapping-注解的-value-属性" class="headerlink" title="3  @RequestMapping 注解的 value 属性"></a>3  @RequestMapping 注解的 value 属性</h2><p>@RequestMapping 注解的 value 属性通过请求的请求地址匹配请求映射。</p>
+<p>@RequestMapping 注解的 value 属性是一个字符串类型的数组，表示该请求映射能够匹配多个请求地址所对应的请求。</p>
+<p>@RequestMapping 注解的value属性必须设置，至少通过请求地址匹配请求映射。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(value = &#123;&quot;login1&quot;,&quot;login2&quot;&#125;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">login</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;login&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">&quot;@&#123;/login1&#125;&quot;</span>&gt;</span>测试 RequestMapping 注解 value 属性<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">&quot;@&#123;/login2&#125;&quot;</span>&gt;</span>测试 RequestMapping 注解 value 属性<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="4-RequestMapping-注解的-method-属性"><a href="#4-RequestMapping-注解的-method-属性" class="headerlink" title="4 @RequestMapping 注解的 method 属性"></a>4 @RequestMapping 注解的 method 属性</h2><p>@RequestMapping 注解的 method 属性通过请求的请求方式（post / get）匹配请求映射。</p>
+<p>@RequsetMapping 注解的 method 属性是一个RequestMethod 类型的数组，标识该请求映射能够匹配多种请求方式的请求。</p>
+<p>@RequestMapping 注解的 <strong>method 属性</strong>若缺省，<strong>不配置</strong>。即代表 RequestMapping <strong>不以 method 属性进行匹配</strong>，无论是 post 还是 get <strong>都可以被匹配到</strong>。 </p>
+<p>若当前请求的请求地址满足请求映射的 value 属性，但是请求方式不满足method属性，则浏览器报错 405: Request method “POST” not supported </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(</span></span><br><span class="line"><span class="meta">        value = &#123;&quot;login1&quot;, &quot;login2&quot;&#125;,</span></span><br><span class="line"><span class="meta">        method = &#123;RequestMethod.GET&#125;</span></span><br><span class="line"><span class="meta">)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">login</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;login&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">th:action</span>=<span class="string">&quot;@&#123;/login2&#125;&quot;</span> <span class="attr">method</span>=<span class="string">&quot;post&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;测试 RequestMapping 注解的 method 属性 -- 》post&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/SpringMVC%E5%AD%A6%E4%B9%A0-2-RequestMapping%E6%B3%A8%E8%A7%A3/image-20220307105826972.png" alt="image-20220307105826972"></p>
+<blockquote>
+<p>注意：</p>
+<ol>
+<li><p>对于处理指定请求方式的控制器方法，SpringMVC 中提供和了 @RequestMapping 的派生注解：</p>
+<ol>
+<li>@GetMapping ：处理 get 请求的映射。</li>
+<li>@PostMapping ：处理 post 请求的映射。</li>
+<li>@PutMapping ：处理 put 请求的映射。</li>
+<li>@deleteMapping ：处理 delete 请求的映射。</li>
+</ol>
+</li>
+<li><p>常用的请求方式有 ：get、post、put、delete</p>
+<p>但是目前浏览器只支持 get 和 post，若在 form 表单提交时，为 method 设置了其他请求方式的字符串（put 或 delete），则按照默认的请求方式 get 处理。</p>
+<p>若要发送 put 和 delete 请求，则需要通过 Spring 提供的过滤器 HiddenHttpMethodFilter 。</p>
+</li>
+</ol>
+</blockquote>
+<h2 id="5-RequestMapping-注解的-params-属性"><a href="#5-RequestMapping-注解的-params-属性" class="headerlink" title="5 @RequestMapping 注解的 params 属性"></a>5 @RequestMapping 注解的 params 属性</h2><p>@RequestMapping 直接的 params 元素可以进一步帮助我们缩小请求映射的定位范围。使用 params 元素，你可以让多个处理方法处理到同一个URL 的请求, 而这些请求的参数是不一样的。</p>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><ol>
+<li>必须有某个参数</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(</span></span><br><span class="line"><span class="meta">        params = &#123;&quot;username&quot;&#125;</span></span><br><span class="line"><span class="meta">)</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>必须没有某个参数</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(</span></span><br><span class="line"><span class="meta">        params = &#123;&quot;!username&quot;&#125;</span></span><br><span class="line"><span class="meta">)</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>必须有某两个参数</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">params = &#123;<span class="string">&quot;username&quot;</span>,<span class="string">&quot;password&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>其他</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">        params = &#123;<span class="string">&quot;username&quot;</span>,<span class="string">&quot;password=123456&quot;</span>&#125;</span><br><span class="line">	   params = &#123;<span class="string">&quot;username&quot;</span>,<span class="string">&quot;password!=123456&quot;</span>&#125;</span><br><span class="line"><span class="comment">//发挥想象，恣意组合</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(</span></span><br><span class="line"><span class="meta">        value = &#123;&quot;/login1&quot;,&quot;/login2&quot;,&quot;/login5&quot;&#125;,</span></span><br><span class="line"><span class="meta">        params = &#123;&quot;username&quot;&#125;</span></span><br><span class="line"><span class="meta">)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">login5</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;login5&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+ <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">&quot;@&#123;/login2(username=admin)&#125;&quot;</span>&gt;</span>测试 RequestMapping 注解的 params 属性 <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/SpringMVC%E5%AD%A6%E4%B9%A0-2-RequestMapping%E6%B3%A8%E8%A7%A3/image-20220308093741681.png" alt="image-20220308093741681"></p>
+<h2 id="6-RequestMapping-注解的-headers-属性"><a href="#6-RequestMapping-注解的-headers-属性" class="headerlink" title="6 @RequestMapping 注解的 headers 属性"></a>6 @RequestMapping 注解的 headers 属性</h2><ul>
+<li>用于HTTP协义交互的信息被称为HTTP报文，客户端发送的HTTP报文被称为请求报文，服务器发回给客户端的HTTP报文称为响应报文，报文由报文头部和报文体组成。</li>
+<li>请求头部（Request Headers）：请求头包含许多有关客户端环境和请求正文的信息，例如浏览器支持的语言、请求的服务器地址、客户端的操作系统等。</li>
+<li>响应头部（Rsponse Headers）：响应头也包含许多有用的信息，包括服务器类型、日期、响应内容的类型及编码，响应内容的长度等等。</li>
+</ul>
+<p>该属性指定，请求中必须包含某些指定的header值，才能够让该方法处理请求。</p>
+<h3 id="使用方法-1"><a href="#使用方法-1" class="headerlink" title="使用方法"></a>使用方法</h3><ol>
+<li><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(</span></span><br><span class="line"><span class="meta">        headers = &#123;&quot;host&quot;&#125;</span></span><br><span class="line"><span class="meta">)</span></span><br></pre></td></tr></table></figure></li>
+<li></li>
+</ol>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(</span></span><br><span class="line"><span class="meta">        headers = &#123;&quot;!host&quot;&#125;</span></span><br><span class="line"><span class="meta">)</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li></li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(</span></span><br><span class="line"><span class="meta">        headers = &#123;&quot;host=localhost:8080&quot;&#125;</span></span><br><span class="line"><span class="meta">)</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(</span></span><br><span class="line"><span class="meta">        headers = &#123;&quot;host!=localhost:8080&quot;&#125;</span></span><br><span class="line"><span class="meta">)</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>若当前请求满足 @RequestMapping 注解的 value 和 method 属性，但是不满足 headers 属性，此时页面显示 404 错误，即资源未找到。</p>
+<h2 id="7-SpringMVC支持ant风格的路径"><a href="#7-SpringMVC支持ant风格的路径" class="headerlink" title="7 SpringMVC支持ant风格的路径"></a>7 SpringMVC支持ant风格的路径</h2><p>?：表示任意的单个字符。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/a?c/testAnt&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testAnt</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;success&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">&quot;@&#123;/abc/testAnt&#125;&quot;</span>&gt;</span>测试 ant 风格的路径<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>*：表示任意的0个或多个字符。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/a*/testAnt&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testAnt</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;success&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">&quot;@&#123;/abc/testAnt&#125;&quot;</span>&gt;</span>测试 ant 风格的路径<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>**：表示任意一层或多层。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/**/testAnt&quot;)</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> String <span class="title">testAnt</span><span class="params">()</span></span>&#123;</span><br><span class="line">       <span class="keyword">return</span> <span class="string">&quot;success&quot;</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">&quot;@&#123;/bbc/1234/abc/testAnt&#125;&quot;</span>&gt;</span>测试 ant 风格的路径<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：在使用**时，只能使用/**/xxx的方式</p>
+<h2 id="8-SpringMVC支持路径中的占位符"><a href="#8-SpringMVC支持路径中的占位符" class="headerlink" title="8.SpringMVC支持路径中的占位符"></a>8.SpringMVC支持路径中的占位符</h2><p>原始方式：/deleteUser?id=1</p>
+<p>rest方式：/deleteUser/1</p>
+<p>SpringMVC 路径中的占位符常用于 restful 风格中，当请求路几个中将某些数据通过路径的方式传输到服务器中，就可以在相应的 @RequestMapping 注解的 value 属性中通过占位符（xxx）表示传输的数据，再通过 @PathVariable 注解，将占位符所表示的数据赋值给控制器方法的形参。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">&quot;@&#123;/testPath/1&#125;&quot;</span>&gt;</span>测试 RequestMapping 注解中支持占位符<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/testPath/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">testPath</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span>Integer id)</span></span>&#123;</span><br><span class="line">        System.out.println(id);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;/success&quot;</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：如果设置了占位符，但是不传值，会报错（实际上是路径错误）！</strong></p>
+<img src="/images/SpringMVC%E5%AD%A6%E4%B9%A0-2-RequestMapping%E6%B3%A8%E8%A7%A3/image-20220308105503611.png" alt="image-20220308105503611" style="zoom:67%;" />
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ol>
+<li><p>@RequestMapping 注解的作用就是<strong>将请求和处理请求的控制器方法关联起来</strong>，建立映射关系。</p>
+</li>
+<li><p>@RequestMapping 注解既可以作用于类上面，也可以作用于方法上面。可以起到区分不同Contrller中相同具体路径的作用。</p>
+</li>
+<li><p>@RequestMapping 注解的主要属性：</p>
+<ol>
+<li>String[] <strong>value</strong> ：配置请求的地址。这个属性是必须要配置的。若配置多个值，不同的请求地址均可以映射到到这个控制器方法。</li>
+<li>RequestMethod[] <strong>method</strong>：配置请求的方法，主要包括 <code>RequestMethod.GET</code> 和 <code>RequestMethod.POST</code> 方法。若缺省、不配置，表示映射规则不与 method 相关，即无论什么 method 均可以匹配得到。但配置多个 如<code>method = &#123;RequestMethod.GET, RequestMethod.POST&#125;</code>, 则 get 请求和 post 请求均可匹配得到。但是若只配置 <code>RequestMethod.GET</code> , 则只能匹配到 get 请求，反之亦然。</li>
+<li>String[] <strong>params</strong>：使用 params 元素，可以让多个处理方法处理到同一个URL 的请求, 而这些请求的参数是不一样的。</li>
+<li>String[] <strong>headers</strong>：该属性指定，请求中必须满足某些指定的 header 值，才能够让该方法处理请求。</li>
+</ol>
+</li>
+<li><p><strong>Ant</strong> 风格 </p>
+<table>
+<thead>
+<tr>
+<th align="left">符号</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">？</td>
+<td>表示任意的单个字符。</td>
+</tr>
+<tr>
+<td align="left">*</td>
+<td>表示任意的0或多个字符。</td>
+</tr>
+<tr>
+<td align="left">**</td>
+<td>表示任意的一层或多层。</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>占位符</p>
+</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">&quot;@&#123;/testPath/1&#125;&quot;</span>&gt;</span>测试 RequestMapping 注解中支持占位符<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/testPath/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">testPath</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span>Integer id)</span></span>&#123;</span><br><span class="line">        System.out.println(id);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;/success&quot;</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p align="right">Joey</p>
+
+<p align="right">2022年3月8日</p>
+
+<p align="center" style="color:#a61b29">妇女节快乐</p>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
+              <a href="/tags/SpringMVC/" rel="tag"># SpringMVC</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/03/07/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/" rel="prev" title="SpringMVC 学习-1-入门">
+      <i class="fa fa-chevron-left"></i> SpringMVC 学习-1-入门
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/03/13/SpringMVC%E5%AD%A6%E4%B9%A0-3-%E8%8E%B7%E5%8F%96%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0/" rel="next" title="SpringMVC 学习-3-获取请求参数">
+      SpringMVC 学习-3-获取请求参数 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-RequestMapping-%E6%B3%A8%E8%A7%A3%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="nav-text">1 @RequestMapping 注解的功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-RequestMapping-%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%8D%E7%BD%AE"><span class="nav-text">2  @RequestMapping 注解的位置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-RequestMapping-%E6%B3%A8%E8%A7%A3%E7%9A%84-value-%E5%B1%9E%E6%80%A7"><span class="nav-text">3  @RequestMapping 注解的 value 属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-RequestMapping-%E6%B3%A8%E8%A7%A3%E7%9A%84-method-%E5%B1%9E%E6%80%A7"><span class="nav-text">4 @RequestMapping 注解的 method 属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-RequestMapping-%E6%B3%A8%E8%A7%A3%E7%9A%84-params-%E5%B1%9E%E6%80%A7"><span class="nav-text">5 @RequestMapping 注解的 params 属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-text">使用方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90"><span class="nav-text">例子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-RequestMapping-%E6%B3%A8%E8%A7%A3%E7%9A%84-headers-%E5%B1%9E%E6%80%A7"><span class="nav-text">6 @RequestMapping 注解的 headers 属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95-1"><span class="nav-text">使用方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F"><span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-SpringMVC%E6%94%AF%E6%8C%81ant%E9%A3%8E%E6%A0%BC%E7%9A%84%E8%B7%AF%E5%BE%84"><span class="nav-text">7 SpringMVC支持ant风格的路径</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-SpringMVC%E6%94%AF%E6%8C%81%E8%B7%AF%E5%BE%84%E4%B8%AD%E7%9A%84%E5%8D%A0%E4%BD%8D%E7%AC%A6"><span class="nav-text">8.SpringMVC支持路径中的占位符</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Joey Shelby</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JoeyShelby" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;JoeyShelby" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Joey Shelby</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : '59k15km9hcS7J8OtNBnuaeoR-gzGzoHsz',
+      appKey     : 'gt0mb96SaYTb4n65WcyBdzDC',
+      placeholder: "留下些什么吧\n上方的个人信息均非必填\n但我希望你能填入昵称和你的个人网站或github链接，我们互相交流学习",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
