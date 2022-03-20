@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="generator" content="Hexo 5.4.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/doge.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/doge.png">
@@ -87,7 +87,7 @@
   </style>
 </noscript>
 
-</head>
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}</style></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -258,10 +258,10 @@
 <p>镜像分层最大的一个好处就是共享资源。比如说有多个镜像都从相同的 base 镜像构建而来，那么 Docker Host 只需在磁盘上保存一份 base 镜像；同时内存中也只需加载一份 base 镜像，就可以为所有容器服务了。而且镜像的每一层都可以被共享。</p>
 <p>当容器启动时，一个新的可写层被加载到镜像的顶部。这一层通常被称作“容器层”，“容器层”之下的都叫“镜像层”。</p>
 <p>所有对容器的改动 - 无论添加、删除、还是修改文件都只会发生在容器层中。只有「容器层是可写的，容器层下面的所有镜像层都是只读的」。</p>
-<h1 id="3-Commit镜像"><a href="#3-Commit镜像" class="headerlink" title="3. Commit镜像"></a>3. Commit镜像</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker commit 提交容器成为一个新的副本</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 命令和git原理类似</span></span><br><span class="line">docker commit -m=&quot;提交的描述信息&quot; -a=&quot;作者&quot; 容器id 目标镜像名:[TAG版本标签]</span><br></pre></td></tr></table></figure>
+<h1 id="3-Commit镜像"><a href="#3-Commit镜像" class="headerlink" title="3. Commit镜像"></a>3. Commit镜像</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker commit 提交容器成为一个新的副本</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">命令和git原理类似</span></span><br><span class="line">docker commit -m=&quot;提交的描述信息&quot; -a=&quot;作者&quot; 容器id 目标镜像名:[TAG版本标签]</span><br></pre></td></tr></table></figure>
 
 <p>实战测试：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 启动一个默认的Tomcat</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 在默认Tomcat中部署项目</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 将修改过的容器Commit提交成为新的镜像</span></span><br><span class="line"></span><br><span class="line">[root@JoeyShelby ~]# docker commit -a=&quot;JoeyShelby&quot; -m=&quot;add webapps app&quot; 8a4625463a2c tomcat02:1.0                                                            sha256:3cf6c5261eeb4fa325242961edd2c307f6752d02d2c3ae052514beb4975fa7fa</span><br><span class="line">[root@JoeyShelby ~]# docker images</span><br><span class="line">REPOSITORY            TAG       IMAGE ID       CREATED         SIZE</span><br><span class="line">tomcat02              1.0       3cf6c5261eeb   6 seconds ago   684MB</span><br><span class="line">tomcat                latest    24207ccc9cce   9 days ago      680MB</span><br><span class="line">hello-world           latest    feb5d9fea6a5   2 months ago    13.3kB</span><br><span class="line">centos                latest    5d0da3dc9764   3 months ago    231MB</span><br><span class="line">portainer/portainer   latest    580c0e4e98b0   9 months ago    79.1MB</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 如果想要保存当前容器的状态，就可以通过commit提交，获得一个镜像</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 就像是虚拟机的快照</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启动一个默认的Tomcat</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在默认Tomcat中部署项目</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将修改过的容器Commit提交成为新的镜像</span></span><br><span class="line"></span><br><span class="line">[root@JoeyShelby ~]# docker commit -a=&quot;JoeyShelby&quot; -m=&quot;add webapps app&quot; 8a4625463a2c tomcat02:1.0                                                            sha256:3cf6c5261eeb4fa325242961edd2c307f6752d02d2c3ae052514beb4975fa7fa</span><br><span class="line">[root@JoeyShelby ~]# docker images</span><br><span class="line">REPOSITORY            TAG       IMAGE ID       CREATED         SIZE</span><br><span class="line">tomcat02              1.0       3cf6c5261eeb   6 seconds ago   684MB</span><br><span class="line">tomcat                latest    24207ccc9cce   9 days ago      680MB</span><br><span class="line">hello-world           latest    feb5d9fea6a5   2 months ago    13.3kB</span><br><span class="line">centos                latest    5d0da3dc9764   3 months ago    231MB</span><br><span class="line">portainer/portainer   latest    580c0e4e98b0   9 months ago    79.1MB</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">如果想要保存当前容器的状态，就可以通过commit提交，获得一个镜像</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">就像是虚拟机的快照</span></span><br></pre></td></tr></table></figure>
 
 <p>至此，告一段落，可以简单地使用Docker。</p>
 
@@ -468,6 +468,33 @@
   
 
   
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: 'unset',
+  left: '32px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: false,
+  label: '🌓',
+  autoMatchOsTheme: false
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+if (window.darkmode && !window.darkmode.isActivated()) {
+  window.darkmode.toggle();
+  var toggleButtons = document.getElementsByClassName("darkmode-toggle");
+  for (i = 0; i < toggleButtons.length; i++) {
+    toggleButtons[i].classList.add("darkmode-toggle--white");
+  }
+}
+</script>
 
 
 <script>
