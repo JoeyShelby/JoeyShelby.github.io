@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"joeyshelby.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"joeyshelby.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="OSI七层模型中的物理层、数据链路层和网络层，它们是面向网络通信的低三层协议。运输层负责端到端的通信，既是七层模型中负责数据通信的最高层，又是面向网络通信的低三层和面向信息处理的最高三层之间的中间层。运输层位于网络层之上、会话层之下，它利用网络层子系统提供给它的服务去开发本层的功能，并实现本层对会话层的服务。">
@@ -193,10 +193,6 @@
     </header>
 
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
 
 
     <main class="main">
@@ -507,6 +503,10 @@
 
 
       </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
 
     </div>
   </aside>
@@ -589,28 +589,21 @@
 
 <script>
 var options = {
-  bottom: '64px',
-  right: '18px',
+  bottom: '32px',
+  right: '32px',
   left: 'unset',
   time: '0.3s',
   mixColor: 'transparent',
   backgroundColor: 'transparent',
   buttonColorDark: '#100f2c',
   buttonColorLight: '#fff',
-  saveInCookies: false,
+  saveInCookies: true,
   label: '🌓',
-  autoMatchOsTheme: false
+  autoMatchOsTheme: true
 }
 const darkmode = new Darkmode(options);
 window.darkmode = darkmode;
 darkmode.showWidget();
-if (window.darkmode && !window.darkmode.isActivated()) {
-  window.darkmode.toggle();
-  var toggleButtons = document.getElementsByClassName("darkmode-toggle");
-  for (i = 0; i < toggleButtons.length; i++) {
-    toggleButtons[i].classList.add("darkmode-toggle--white");
-  }
-}
 </script>
 
 
