@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/doge.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/doge.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"joeyshelby.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="《代码随想录》哈希表部分刷题总结，哈希表主要用于快速判断一个元素是否在集合中。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="代码随想录-3-哈希表">
+<meta property="og:url" content="https://joeyshelby.github.io/2022/03/04/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95-3-%E5%93%88%E5%B8%8C%E8%A1%A8/index.html">
+<meta property="og:site_name" content="JoeyShelby">
+<meta property="og:description" content="《代码随想录》哈希表部分刷题总结，哈希表主要用于快速判断一个元素是否在集合中。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95-3-%E5%93%88%E5%B8%8C%E8%A1%A8/20210104234805168.png">
+<meta property="og:image" content="https://joeyshelby.github.io/images/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95-3-%E5%93%88%E5%B8%8C%E8%A1%A8/image-20220403083454705.png">
+<meta property="article:published_time" content="2022-03-04T08:07:21.000Z">
+<meta property="article:modified_time" content="2022-04-03T08:57:12.925Z">
+<meta property="article:author" content="Joey Shelby">
+<meta property="article:tag" content="代码随想录">
+<meta property="article:tag" content="LeetCode">
+<meta property="article:tag" content="哈希表">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://joeyshelby.github.io/images/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95-3-%E5%93%88%E5%B8%8C%E8%A1%A8/20210104234805168.png">
+
+<link rel="canonical" href="https://joeyshelby.github.io/2022/03/04/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95-3-%E5%93%88%E5%B8%8C%E8%A1%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>代码随想录-3-哈希表 | JoeyShelby</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?dabbff456ff5e13554335fb1ef9b3f60";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">JoeyShelby</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">北海，要多想</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-留言板">
+
+    <a href="/guestbook/" rel="section"><i class="fa fa-book fa-fw"></i>留言板</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://joeyshelby.github.io/2022/03/04/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95-3-%E5%93%88%E5%B8%8C%E8%A1%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Joey Shelby">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JoeyShelby">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          代码随想录-3-哈希表
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-04 16:07:21" itemprop="dateCreated datePublished" datetime="2022-03-04T16:07:21+08:00">2022-03-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-03 16:57:12" itemprop="dateModified" datetime="2022-04-03T16:57:12+08:00">2022-04-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%80%BB%E7%BB%93/" itemprop="url" rel="index"><span itemprop="name">总结</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%80%BB%E7%BB%93/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95/" itemprop="url" rel="index"><span itemprop="name">代码随想录</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/03/04/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95-3-%E5%93%88%E5%B8%8C%E8%A1%A8/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/04/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95-3-%E5%93%88%E5%B8%8C%E8%A1%A8/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <div class="post-description">《代码随想录》哈希表部分刷题总结，哈希表主要用于快速判断一个元素是否在集合中。</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="1-哈希表的定义及特性"><a href="#1-哈希表的定义及特性" class="headerlink" title="1 哈希表的定义及特性"></a>1 哈希表的定义及特性</h1><h2 id="1-1-定义"><a href="#1-1-定义" class="headerlink" title="1.1 定义"></a>1.1 定义</h2><p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%95%A3%E5%88%97%E8%A1%A8/10027933">散列表</a>（Hash table，也叫哈希表），是根据关键码值(Key value)而直接进行访问的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/1450">数据结构</a>。也就是说，它通过把关键码值映射到表中一个位置来访问记录，以加快查找的速度。这个映射函数叫做<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%95%A3%E5%88%97%E5%87%BD%E6%95%B0/2366288">散列函数</a>，存放记录的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%95%B0%E7%BB%84/3794097">数组</a>叫做<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%95%A3%E5%88%97%E8%A1%A8/10027933">散列表</a>。</p>
+<p>给定表M，存在函数f(key)，对任意给定的关键字值key，代入函数后若能得到包含该关键字的记录在表中的地址，则称表M为哈希(Hash）表，函数f(key)为哈希(Hash) 函数。</p>
+<p>其实直白来讲其实数组就是一张哈希表。</p>
+<p>哈希表中关键码就是数组的索引下标，然后通过下标直接访问数组中的元素，如下图所示：</p>
+<p><img src="/images/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95-3-%E5%93%88%E5%B8%8C%E8%A1%A8/20210104234805168.png" alt="哈希表1"></p>
+<h2 id="1-2-哈希函数"><a href="#1-2-哈希函数" class="headerlink" title="1.2 哈希函数"></a>1.2 哈希函数</h2><p>哈希函数指将哈希表中元素的关键键值映射为元素存储位置的函数。哈希函数（散列函数）能够将任意长度的输入值转变成固定长度的值输出，该值称为散列值，输出值通常为字母与数字组合。</p>
+<h2 id="1-3-哈希碰撞"><a href="#1-3-哈希碰撞" class="headerlink" title="1.3 哈希碰撞"></a>1.3 哈希碰撞</h2><p>如果不同的输入经哈希函数得到了同一个哈希值，就发生了”哈希碰撞”（collision）。</p>
+<p><img src="/images/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95-3-%E5%93%88%E5%B8%8C%E8%A1%A8/image-20220403083454705.png" alt="image-20220403083454705"></p>
+<p>一般哈希碰撞有三种解决方法：</p>
+<blockquote>
+<p>1.开放地址法（再散列法）<br>基本思想：当发生地址冲突时，按照某种方法继续探测哈希表中的其他存储单元，直到找到空位置为止。<br>2.Rehash（再hash法）<br>使用第二个或第三个…计算地址，知道无冲突。比如：按首字母进行hash冲突了，则按照首字母第二位，进行hash寻址。<br>3.链地址法（拉链法）<br>创建一个链表数组，数组中每一格就是一个链表。若遇到哈希冲突，则将冲突的值加到链表中即可。</p>
+</blockquote>
+<h2 id="1-4-特性"><a href="#1-4-特性" class="headerlink" title="1.4 特性"></a>1.4 特性</h2><p>一般哈希表都是用来快速判断一个元素是否出现集合里。它通过把关键码值映射到表中一个位置来访问记录，以加快查找的速度。</p>
+<h1 id="2-数组构造哈希表"><a href="#2-数组构造哈希表" class="headerlink" title="2 数组构造哈希表"></a>2 数组构造哈希表</h1><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/valid-anagram/">242. 有效的字母异位词</a></p>
+<p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/ransom-note/">383. 赎金信</a></p>
+<p>数组其实就是一个简单的 hash 表，当 key 的集合有限时，便可以考虑使用数组来构造 hash 表。如 242 题，需要将 26 个小写字母作为 key，可以采用 map，但这时如果使用数组来构造 hash 表的话，明显效率更高。</p>
+<p><strong>但是如果哈希值比较少、特别分散、跨度非常大，使用数组就造成空间的极大浪费。</strong></p>
+<h1 id="3-HashSet"><a href="#3-HashSet" class="headerlink" title="3 HashSet"></a>3 HashSet</h1><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/intersection-of-two-arrays/">349. 两个数组的交集</a></p>
+<p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/happy-number/">202. 快乐数 </a></p>
+<p>HashSet的内部就是调用的HashMap，它和HashMap的区别是，HashSet存放的是单个值，而且不能重复。</p>
+<p>有必要说一说HashSet是怎么判断元素重复的：</p>
+<ul>
+<li>获取将要添加元素的hashcode值；</li>
+<li>如果hashcode和已经存储元素的任何一个都不同，则证明不重复，可以添加；</li>
+<li>如果hashcode和某个已经存在的元素的hashcode相同，则比较它们的值是否相等；</li>
+<li>如果值相等，则证明重复，否则就是不重复，可以添加。</li>
+</ul>
+<h1 id="4-HashMap"><a href="#4-HashMap" class="headerlink" title="4 HashMap"></a>4 HashMap</h1><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/4sum-ii/">454. 四数相加 II</a></p>
+<p>首先最重要的一点是HashMap不是线程安全的，这是它区别于HashTable和ConcurrentHashMap的重要特性，但也因此，它的效率是最高的。</p>
+<p>在JDK1.8之前，HashMap就是简单的数组+链表的数据结构，但是JDK1.8中，已经优化成了数组+链表&#x2F;红黑树的数据结构。即当链表中的元素大于阈值8的时候，链表会转换为一颗红黑树，如此可以加快在链表上寻找元素的效率。</p>
+<h1 id="5-HashTable"><a href="#5-HashTable" class="headerlink" title="5 HashTable"></a>5 HashTable</h1><p>HashTable因为是线程安全的，因此效率当然会比HashMap要低，同时，它不支持存放键为null的情况，会抛出异常。</p>
+<p>HashTable的默认不指定初始大小的情况下初始容量为11，之后每次扩容会变为2n+1。</p>
+<p>HashTable在底层的数据结构上还是维持原来的数组+链表形式。</p>
+<p>在实际的多线程使用场景下，通常不推荐使用HashTable，而是使用ConcurrentHashMap，因为后者的效率更高，ConcurrentHashMap采用的是分段锁和数组+链表形式的数据结构，和HashMap的数据结构比较起来，多了分段锁的机制，也正是这个机制保证了它的线程安全。</p>
+<h1 id="6-n数之和"><a href="#6-n数之和" class="headerlink" title="6 n数之和"></a>6 n数之和</h1><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/3sum/">15. 三数之和</a></p>
+<p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/4sum/">18. 四数之和</a></p>
+<p>上面这两题可以使用 hash 表来找出需要的加数在不在集合中，两层for循环就可以确定 a 和b 的数值了，可以使用哈希法来确定 0-(a+b) 是否在 数组里出现过，其实这个思路是正确的，但是我们有一个非常棘手的问题，就是题目中说的不可以包含重复的三元组。把符合条件的三元组放进vector中，然后再去重，这样是非常费时的，很容易超时。</p>
+<p>所以更适合采用双指针法，去重也更加的方便。</p>
+<p align="right">Joey</p>
+
+<p align="right">2022年4月3日</p>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95/" rel="tag"># 代码随想录</a>
+              <a href="/tags/LeetCode/" rel="tag"># LeetCode</a>
+              <a href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" rel="tag"># 哈希表</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/03/02/Spring%E5%AD%A6%E4%B9%A0-4-JdbcTemplete/" rel="prev" title="Spring学习-4-JdbcTemplate">
+      <i class="fa fa-chevron-left"></i> Spring学习-4-JdbcTemplate
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/03/04/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95-1-%E6%95%B0%E7%BB%84/" rel="next" title="代码随想录-1-数组">
+      代码随想录-1-数组 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%93%88%E5%B8%8C%E8%A1%A8%E7%9A%84%E5%AE%9A%E4%B9%89%E5%8F%8A%E7%89%B9%E6%80%A7"><span class="nav-text">1 哈希表的定义及特性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E5%AE%9A%E4%B9%89"><span class="nav-text">1.1 定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E5%93%88%E5%B8%8C%E5%87%BD%E6%95%B0"><span class="nav-text">1.2 哈希函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E5%93%88%E5%B8%8C%E7%A2%B0%E6%92%9E"><span class="nav-text">1.3 哈希碰撞</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-%E7%89%B9%E6%80%A7"><span class="nav-text">1.4 特性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E6%95%B0%E7%BB%84%E6%9E%84%E9%80%A0%E5%93%88%E5%B8%8C%E8%A1%A8"><span class="nav-text">2 数组构造哈希表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-HashSet"><span class="nav-text">3 HashSet</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-HashMap"><span class="nav-text">4 HashMap</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-HashTable"><span class="nav-text">5 HashTable</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-n%E6%95%B0%E4%B9%8B%E5%92%8C"><span class="nav-text">6 n数之和</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Joey Shelby</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JoeyShelby" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;JoeyShelby" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Joey Shelby</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '32px',
+  right: '32px',
+  left: 'unset',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : '59k15km9hcS7J8OtNBnuaeoR-gzGzoHsz',
+      appKey     : 'gt0mb96SaYTb4n65WcyBdzDC',
+      placeholder: "留下些什么吧\n上方的个人信息均非必填\n但我希望你能填入昵称和你的个人网站或github链接，我们互相交流学习",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

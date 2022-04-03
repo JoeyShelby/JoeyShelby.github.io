@@ -166,7 +166,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://joeyshelby.github.io/2022/03/20/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95-2-%E9%93%BE%E8%A1%A8/">
+    <link itemprop="mainEntityOfPage" href="https://joeyshelby.github.io/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-12-SpringMVC%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -180,7 +180,719 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/03/20/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95-2-%E9%93%BE%E8%A1%A8/" class="post-title-link" itemprop="url">代码随想录-2-链表</a>
+            <a href="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-12-SpringMVC%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B/" class="post-title-link" itemprop="url">SpringMVC学习-12-SpringMVC 执行流程</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-03 16:56:54" itemprop="dateCreated datePublished" datetime="2022-04-03T16:56:54+08:00">2022-04-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/SpringMVC/" itemprop="url" rel="index"><span itemprop="name">SpringMVC</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-12-SpringMVC%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-12-SpringMVC%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>SpringMVC 常用组件、DispatcherServlet 初始化过程、DispatcherServlet 调用组件请求处理以及 SpringMVC 的执行流程。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-12-SpringMVC%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://joeyshelby.github.io/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-11-%E6%B3%A8%E8%A7%A3%E9%85%8D%E7%BD%AESpringMVC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Joey Shelby">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JoeyShelby">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-11-%E6%B3%A8%E8%A7%A3%E9%85%8D%E7%BD%AESpringMVC/" class="post-title-link" itemprop="url">SpringMVC学习-11-注解配置SpringMVC</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-03 16:56:39" itemprop="dateCreated datePublished" datetime="2022-04-03T16:56:39+08:00">2022-04-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/SpringMVC/" itemprop="url" rel="index"><span itemprop="name">SpringMVC</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-11-%E6%B3%A8%E8%A7%A3%E9%85%8D%E7%BD%AESpringMVC/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-11-%E6%B3%A8%E8%A7%A3%E9%85%8D%E7%BD%AESpringMVC/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>使用配置类和注解代替 web.xml 和 SpringMVC 配置文件的功能。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-11-%E6%B3%A8%E8%A7%A3%E9%85%8D%E7%BD%AESpringMVC/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://joeyshelby.github.io/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-10-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Joey Shelby">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JoeyShelby">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-10-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E5%99%A8/" class="post-title-link" itemprop="url">SpringMVC学习-10-异常处理器</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-03 16:56:25" itemprop="dateCreated datePublished" datetime="2022-04-03T16:56:25+08:00">2022-04-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/SpringMVC/" itemprop="url" rel="index"><span itemprop="name">SpringMVC</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-10-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E5%99%A8/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-10-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E5%99%A8/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>SpringMVC 提供了异常处理器以在出现异常时反馈给用户友善的错误提示页面。可使用 SpringMVC 配置文件进行配置或在  Contrller 中使用注进行配置。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-10-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E5%99%A8/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://joeyshelby.github.io/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-9-%E6%8B%A6%E6%88%AA%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Joey Shelby">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JoeyShelby">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-9-%E6%8B%A6%E6%88%AA%E5%99%A8/" class="post-title-link" itemprop="url">SpringMVC学习-9-拦截器</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-03 16:56:10" itemprop="dateCreated datePublished" datetime="2022-04-03T16:56:10+08:00">2022-04-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/SpringMVC/" itemprop="url" rel="index"><span itemprop="name">SpringMVC</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-9-%E6%8B%A6%E6%88%AA%E5%99%A8/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-9-%E6%8B%A6%E6%88%AA%E5%99%A8/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>SpringMVC中的拦截器用于拦截控制器方法的执行。拦截器中有三个抽象方法：preHandle()，postHandle() 和 afterComplation()。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-9-%E6%8B%A6%E6%88%AA%E5%99%A8/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://joeyshelby.github.io/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-8-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%92%8C%E4%B8%8B%E8%BD%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Joey Shelby">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JoeyShelby">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-8-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%92%8C%E4%B8%8B%E8%BD%BD/" class="post-title-link" itemprop="url">SpringMVC学习-8-文件的上传和下载</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-03 16:55:52" itemprop="dateCreated datePublished" datetime="2022-04-03T16:55:52+08:00">2022-04-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/SpringMVC/" itemprop="url" rel="index"><span itemprop="name">SpringMVC</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-8-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%92%8C%E4%B8%8B%E8%BD%BD/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-8-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%92%8C%E4%B8%8B%E8%BD%BD/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>使用 ResponseEntity 设置响应报文以实现文件的下载功能。使用 MultipartFile 对象以实现文件的上传功能。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-8-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%92%8C%E4%B8%8B%E8%BD%BD/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://joeyshelby.github.io/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-7-HttpMessageConverter/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Joey Shelby">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JoeyShelby">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-7-HttpMessageConverter/" class="post-title-link" itemprop="url">SpringMVC学习-7-HttpMessageConverter</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-03 16:55:39" itemprop="dateCreated datePublished" datetime="2022-04-03T16:55:39+08:00">2022-04-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/SpringMVC/" itemprop="url" rel="index"><span itemprop="name">SpringMVC</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-7-HttpMessageConverter/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-7-HttpMessageConverter/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="1-HttpMessageConverter-简介"><a href="#1-HttpMessageConverter-简介" class="headerlink" title="1 HttpMessageConverter 简介"></a>1 HttpMessageConverter 简介</h1><p>  HttpMessageConverter，报文信息转换器</p>
+<ol>
+<li>将浏览器发送的请求报文转换为 java 对象。</li>
+<li>将服务器的 java 对象转换为响应报文。</li>
+</ol>
+<p> HttpMessageConverter 提供了两个注解和两个类型。</p>
+<ol>
+<li>@RequestBody，@ResponseBody</li>
+<li>RequestEntity，ResponseEntity</li>
+</ol>
+<h1 id="2-RequestBody"><a href="#2-RequestBody" class="headerlink" title="2 @RequestBody"></a>2 @RequestBody</h1><p>@RequestBody 可以获取请求体，需要在控制器方法设置一个形参，使用 @RequestBody 进行标识，当前请求的请求体就会<strong>为当前注解所标识的形参赋值</strong>。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">th:action</span>=<span class="string">&quot;@&#123;/testRequestBody&#125;&quot;</span> <span class="attr">method</span>=<span class="string">&quot;post&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;username&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/testRequestBody&quot;)</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">testRequestBody</span><span class="params">(<span class="meta">@RequestBody</span> String requestBody)</span>&#123;</span><br><span class="line">    System.out.println(requestBody);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;index&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username=abc&amp;password=123</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：</p>
+<blockquote>
+<p>要想查看请求体的话只能使用 POST 方法，因为 GET 请求会将参数拼接在请求头里。</p>
+</blockquote>
+<h1 id="3-RequestEntity"><a href="#3-RequestEntity" class="headerlink" title="3 RequestEntity"></a>3 RequestEntity</h1><p>RequestEntity 封装请求报文的一种类型，需要在控制器方法的形参中设置该类型的形参，当前请求的请求报文就会赋值给该形参，可以通过 getHeaders() 获取请求头信息，通过 getBody() 获取请求体信息。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">th:action</span>=<span class="string">&quot;@&#123;/testRequestBody&#125;&quot;</span> <span class="attr">method</span>=<span class="string">&quot;post&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;username&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/testRequestBody&quot;)</span></span><br><span class="line"> <span class="keyword">public</span> String <span class="title function_">testRequestBody</span><span class="params">(RequestEntity&lt;String&gt;  requestEntity)</span> &#123;</span><br><span class="line">     System.out.println(requestEntity.getHeaders());</span><br><span class="line">     System.out.println(requestEntity.getBody());</span><br><span class="line">     <span class="keyword">return</span> <span class="string">&quot;index&quot;</span>;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[host:&quot;localhost:8080&quot;, connection:&quot;keep-alive&quot;, content-length:&quot;25&quot;, cache-control:&quot;max-age=0&quot;, sec-ch-ua:&quot;&quot; Not A;Brand&quot;;v=&quot;99&quot;, &quot;Chromium&quot;;v=&quot;99&quot;, &quot;Google Chrome&quot;;v=&quot;99&quot;&quot;, sec-ch-ua-mobile:&quot;?0&quot;, sec-ch-ua-platform:&quot;&quot;Windows&quot;&quot;, upgrade-insecure-requests:&quot;1&quot;, origin:&quot;http://localhost:8080&quot;, user-agent:&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36&quot;, accept:&quot;text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9&quot;, sec-fetch-site:&quot;same-origin&quot;, sec-fetch-mode:&quot;navigate&quot;, sec-fetch-user:&quot;?1&quot;, sec-fetch-dest:&quot;document&quot;, referer:&quot;http://localhost:8080/SpringMVC_demo4/testRequestBody&quot;, accept-encoding:&quot;gzip, deflate, br&quot;, accept-language:&quot;zh-CN,zh;q=0.9&quot;, Content-Type:&quot;application/x-www-form-urlencoded;charset=UTF-8&quot;]</span><br><span class="line">username=abc&amp;password=123</span><br></pre></td></tr></table></figure>
+
+<h1 id="4-ResponseBody"><a href="#4-ResponseBody" class="headerlink" title="4 @ResponseBody"></a>4 @ResponseBody</h1><p>@ResponseBody用于标识一个控制器方法，可以将该方法的返回值直接作为响应报文的响应体响应到浏览器。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;a th:href=&quot;@&#123;/testResponseApi&#125;&quot;&gt;测试使用原生 ServletApi 设置响应信息&lt;/a&gt;&lt;br/&gt;</span><br><span class="line">&lt;a th:href=&quot;@&#123;/testResponseBody&#125;&quot;&gt;测试使用 @ResponseBody 注解设置响应信息&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/testResponseApi&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testResponseApi</span><span class="params">(HttpServletResponse response)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    response.getWriter().println(<span class="string">&quot;原生的 servlet api 设置响应信息&quot;</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/testResponseBody&quot;)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">testResponseBody</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;使用 @ResponseBody 注解设置相应信息&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>运行结果：</strong></p>
+<p><img src="/images/SpringMVC%E5%AD%A6%E4%B9%A0-7-HttpMessageConverter/image-20220326172017594.png" alt="image-20220326172017594"></p>
+<p><img src="/images/SpringMVC%E5%AD%A6%E4%B9%A0-7-HttpMessageConverter/image-20220326172022596.png" alt="image-20220326172022596"></p>
+<p>存在字符乱码问题。</p>
+<h1 id="5-SpringMVC-处理-JSON"><a href="#5-SpringMVC-处理-JSON" class="headerlink" title="5 SpringMVC 处理 JSON"></a>5 SpringMVC 处理 JSON</h1><p>@ResponseBody处理json的步骤：</p>
+<h2 id="5-1-导入jackson的依赖"><a href="#5-1-导入jackson的依赖" class="headerlink" title="5.1 导入jackson的依赖"></a>5.1 导入jackson的依赖</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-databind<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.13.2.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="5-2-开启mvc的注解驱动"><a href="#5-2-开启mvc的注解驱动" class="headerlink" title="5.2 开启mvc的注解驱动"></a>5.2 开启mvc的注解驱动</h2><p>此时在 HandlerAdaptor 中会自动装配一个消息转换器：MappingJackson2HttpMessageConverter，可以将响应到浏览器的 Java 对象转换为 Json 格式的字符串。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mvc:annotation-driven</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="5-3-ResponseBody注解"><a href="#5-3-ResponseBody注解" class="headerlink" title="5.3 @ResponseBody注解"></a>5.3 @ResponseBody注解</h2><h2 id="5-4-控制器方法返回值"><a href="#5-4-控制器方法返回值" class="headerlink" title="5.4 控制器方法返回值"></a>5.4 控制器方法返回值</h2><p> 将Java对象直接作为控制器方法的返回值返回，就会自动转换为Json格式的字符串</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;testResponseBodyJson&quot;)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="keyword">public</span> User <span class="title function_">testResponseBodyJson</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>(<span class="string">&quot;admin&quot;</span>, <span class="string">&quot;123&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> user;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>结果：</strong></p>
+<p><img src="/../images/SpringMVC%E5%AD%A6%E4%B9%A0-7-HttpMessageConverter/image-20220329144727274.png" alt="image-20220329144727274"></p>
+<h1 id="6-SpringMVC-处理-ajax"><a href="#6-SpringMVC-处理-ajax" class="headerlink" title="6 SpringMVC 处理 ajax"></a>6 SpringMVC 处理 ajax</h1><p>AJAX 最大的优点是在不重新加载整个页面的情况下，可以与服务器交换数据并更新部分网页内容。</p>
+<h2 id="6-1-请求超链接"><a href="#6-1-请求超链接" class="headerlink" title="6.1 请求超链接"></a>6.1 请求超链接</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">&quot;@&#123;/testAjax&#125;&quot;</span> @<span class="attr">click</span>=<span class="string">&quot;testAjax&quot;</span>&gt;</span>testAjax<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="6-2-处理点击事件"><a href="#6-2-处理点击事件" class="headerlink" title="6.2 处理点击事件"></a>6.2 处理点击事件</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">th:src</span>=<span class="string">&quot;@&#123;/static/js/vue.js&#125;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">th:src</span>=<span class="string">&quot;@&#123;/static/js/axios.min.js&#125;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> vue = <span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="attr">el</span>:<span class="string">&quot;#app&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">        <span class="attr">methods</span>:&#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="attr">testAjax</span>:<span class="keyword">function</span> (<span class="params">event</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">                <span class="title function_">axios</span>(&#123;</span></span><br><span class="line"><span class="language-javascript">                    <span class="attr">method</span>:<span class="string">&quot;post&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">                    <span class="attr">url</span>:event.<span class="property">target</span>.<span class="property">href</span>,</span></span><br><span class="line"><span class="language-javascript">                    <span class="attr">params</span>:&#123;</span></span><br><span class="line"><span class="language-javascript">                        <span class="attr">username</span>:<span class="string">&quot;admin&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">                        <span class="attr">password</span>:<span class="string">&quot;123456&quot;</span></span></span><br><span class="line"><span class="language-javascript">                    &#125;</span></span><br><span class="line"><span class="language-javascript">                &#125;).<span class="title function_">then</span>(<span class="keyword">function</span> (<span class="params">response</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">                    <span class="title function_">alert</span>(response.<span class="property">data</span>);</span></span><br><span class="line"><span class="language-javascript">                &#125;);</span></span><br><span class="line"><span class="language-javascript">                event.<span class="title function_">preventDefault</span>();</span></span><br><span class="line"><span class="language-javascript">            &#125;</span></span><br><span class="line"><span class="language-javascript">        &#125;</span></span><br><span class="line"><span class="language-javascript">    &#125;);</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong></p>
+<blockquote>
+<p>需要在 SpringMVC 配置文件中配置 mvc:default-servlet-handler 来对静态 js 文件进行处理。</p>
+<p>对进入DispatcherServlet的URL进行筛查，如果发现是静态资源的请求，就将该请求转由Web应用服务器默认的Ser<strong>v</strong>let处理，如果不是静态资源的请求，才由DispatcherServlet继续处理。</p>
+<p>同时可能需要对 maven 项目重新打包。</p>
+</blockquote>
+<img src="/images/SpringMVC%E5%AD%A6%E4%B9%A0-7-HttpMessageConverter/image-20220329151820239.png" alt="image-20220329151820239" style="zoom:50%;" />
+
+<h2 id="6-3-控制器方法"><a href="#6-3-控制器方法" class="headerlink" title="6.3 控制器方法"></a>6.3 控制器方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/testAjax&quot;)</span></span><br><span class="line">  <span class="meta">@ResponseBody</span></span><br><span class="line">  <span class="keyword">public</span> String <span class="title function_">testAjax</span><span class="params">(String username, String password)</span>&#123;</span><br><span class="line">      System.out.println(<span class="string">&quot;username:&quot;</span>+username+<span class="string">&quot;,password:&quot;</span>+password);</span><br><span class="line">      <span class="keyword">return</span> <span class="string">&quot;hello,ajax&quot;</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<img src="/images/SpringMVC%E5%AD%A6%E4%B9%A0-7-HttpMessageConverter/image-20220329152148894.png" alt="image-20220329152148894" style="zoom:50%;" />
+
+<h1 id="7-RestController注解"><a href="#7-RestController注解" class="headerlink" title="7 @RestController注解"></a>7 @RestController注解</h1><p>@RestController 注解是 springMVC 提供的一个复合注解，标识在控制器的类上，就相当于为类添加了 @Controller 注解，并且为其中的每个方法添加了 @ResponseBody 注解。</p>
+<h1 id="8-ResponseEntity"><a href="#8-ResponseEntity" class="headerlink" title="8 ResponseEntity"></a>8 ResponseEntity</h1><p>ResponseEntity 用于控制器方法的返回值类型，该控制器方法的返回值就是响应到浏览器的响应报文。</p>
+<p>标识整个http相应：状态码、头部信息、响应体内容(spring)。</p>
+<p>可用于文件下载。</p>
+<p align="right">Joey</p>
+
+<p align="right">2022年3月29日</p>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://joeyshelby.github.io/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-6-RESTful/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Joey Shelby">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JoeyShelby">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-6-RESTful/" class="post-title-link" itemprop="url">SpringMVC学习-6-RESTFul</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-03 16:55:10" itemprop="dateCreated datePublished" datetime="2022-04-03T16:55:10+08:00">2022-04-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/SpringMVC/" itemprop="url" rel="index"><span itemprop="name">SpringMVC</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-6-RESTful/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-6-RESTful/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>POST(增),DELETE(删),PUT(改),GET(查)。REST 风格提倡 URL 地址使用统一的风格设计，从前到后各个单词使用斜杠分开，不使用问号键值对方式携带请求参数，而是将要发送给服务器的数据作为 URL 地址的一部分，以保证整体风格的一致性。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/03/SpringMVC%E5%AD%A6%E4%B9%A0-6-RESTful/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://joeyshelby.github.io/2022/04/03/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95-2-%E9%98%9F%E5%88%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Joey Shelby">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JoeyShelby">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/03/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95-2-%E9%98%9F%E5%88%97/" class="post-title-link" itemprop="url">Java数据结构和算法-2-队列</a>
         </h2>
 
         <div class="post-meta">
@@ -191,198 +903,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-03-20 11:34:25 / 修改时间：15:52:57" itemprop="dateCreated datePublished" datetime="2022-03-20T11:34:25+08:00">2022-03-20</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%80%BB%E7%BB%93/" itemprop="url" rel="index"><span itemprop="name">总结</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%80%BB%E7%BB%93/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95/" itemprop="url" rel="index"><span itemprop="name">代码随想录</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/03/20/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95-2-%E9%93%BE%E8%A1%A8/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/20/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95-2-%E9%93%BE%E8%A1%A8/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>《代码随想录》链表部分刷题总结，链表部分主要包括基本链表操作、过程模拟以及双指针法。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/20/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95-2-%E9%93%BE%E8%A1%A8/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://joeyshelby.github.io/2022/03/19/SpringMVC%E5%AD%A6%E4%B9%A0-5-%E8%A7%86%E5%9B%BE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Joey Shelby">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JoeyShelby">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/19/SpringMVC%E5%AD%A6%E4%B9%A0-5-%E8%A7%86%E5%9B%BE/" class="post-title-link" itemprop="url">SpringMVC学习-5-SpringMVC 的视图</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-19 11:40:03" itemprop="dateCreated datePublished" datetime="2022-03-19T11:40:03+08:00">2022-03-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-20 15:12:35" itemprop="dateModified" datetime="2022-03-20T15:12:35+08:00">2022-03-20</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%A6%E4%B9%A0/SpringMVC/" itemprop="url" rel="index"><span itemprop="name">SpringMVC</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/03/19/SpringMVC%E5%AD%A6%E4%B9%A0-5-%E8%A7%86%E5%9B%BE/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/19/SpringMVC%E5%AD%A6%E4%B9%A0-5-%E8%A7%86%E5%9B%BE/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>SpringMVC 中的视图是 View 接口，默认有转发视图 InternalResourceView 和重定向视图 RedirectView。也可以配置 ThymeleafView 作为转发视图。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/19/SpringMVC%E5%AD%A6%E4%B9%A0-5-%E8%A7%86%E5%9B%BE/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://joeyshelby.github.io/2022/03/19/SpringMVC%E5%AD%A6%E4%B9%A0-4-%E5%9F%9F%E5%AF%B9%E8%B1%A1%E5%85%B1%E4%BA%AB%E6%95%B0%E6%8D%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Joey Shelby">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JoeyShelby">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/19/SpringMVC%E5%AD%A6%E4%B9%A0-4-%E5%9F%9F%E5%AF%B9%E8%B1%A1%E5%85%B1%E4%BA%AB%E6%95%B0%E6%8D%AE/" class="post-title-link" itemprop="url">SpringMVC学习-4-域对象共享数据</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-19 11:39:52" itemprop="dateCreated datePublished" datetime="2022-03-19T11:39:52+08:00">2022-03-19</time>
+              <time title="创建时间：2022-04-03 16:52:32 / 修改时间：16:53:42" itemprop="dateCreated datePublished" datetime="2022-04-03T16:52:32+08:00">2022-04-03</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -394,7 +915,7 @@
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%A6%E4%B9%A0/SpringMVC/" itemprop="url" rel="index"><span itemprop="name">SpringMVC</span></a>
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">数据结构与算法</span></a>
                 </span>
             </span>
 
@@ -407,8 +928,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2022/03/19/SpringMVC%E5%AD%A6%E4%B9%A0-4-%E5%9F%9F%E5%AF%B9%E8%B1%A1%E5%85%B1%E4%BA%AB%E6%95%B0%E6%8D%AE/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/19/SpringMVC%E5%AD%A6%E4%B9%A0-4-%E5%9F%9F%E5%AF%B9%E8%B1%A1%E5%85%B1%E4%BA%AB%E6%95%B0%E6%8D%AE/" itemprop="commentCount"></span>
+    <a title="valine" href="/2022/04/03/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95-2-%E9%98%9F%E5%88%97/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/03/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95-2-%E9%98%9F%E5%88%97/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -423,10 +944,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>介绍了在 SpringMVC 中如何对域对象（request, session, application）进行操作以及 SpringMVC 中的重要对象：ModelAndView。</p>
+          <p>队列是一种简单且经典的数据结构，它的最主要特点是：元素先进先出，后进后出。可以用数组实现队列，并在此基础上通过模运算实现循环数组队列。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/03/19/SpringMVC%E5%AD%A6%E4%B9%A0-4-%E5%9F%9F%E5%AF%B9%E8%B1%A1%E5%85%B1%E4%BA%AB%E6%95%B0%E6%8D%AE/">
+              <a class="btn" href="/2022/04/03/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95-2-%E9%98%9F%E5%88%97/">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -450,7 +971,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://joeyshelby.github.io/2022/03/13/SpringMVC%E5%AD%A6%E4%B9%A0-3-%E8%8E%B7%E5%8F%96%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0/">
+    <link itemprop="mainEntityOfPage" href="https://joeyshelby.github.io/2022/04/03/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95-3-%E9%93%BE%E8%A1%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -464,7 +985,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/03/13/SpringMVC%E5%AD%A6%E4%B9%A0-3-%E8%8E%B7%E5%8F%96%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0/" class="post-title-link" itemprop="url">SpringMVC 学习-3-获取请求参数</a>
+            <a href="/2022/04/03/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95-3-%E9%93%BE%E8%A1%A8/" class="post-title-link" itemprop="url">Java数据结构和算法-3-链表</a>
         </h2>
 
         <div class="post-meta">
@@ -474,7 +995,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-03-13 10:25:00" itemprop="dateCreated datePublished" datetime="2022-03-13T10:25:00+08:00">2022-03-13</time>
+              <time title="创建时间：2022-04-03 16:52:08" itemprop="dateCreated datePublished" datetime="2022-04-03T16:52:08+08:00">2022-04-03</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -486,7 +1007,7 @@
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%A6%E4%B9%A0/SpringMVC/" itemprop="url" rel="index"><span itemprop="name">SpringMVC</span></a>
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">数据结构和算法</span></a>
                 </span>
             </span>
 
@@ -499,8 +1020,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2022/03/13/SpringMVC%E5%AD%A6%E4%B9%A0-3-%E8%8E%B7%E5%8F%96%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/13/SpringMVC%E5%AD%A6%E4%B9%A0-3-%E8%8E%B7%E5%8F%96%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0/" itemprop="commentCount"></span>
+    <a title="valine" href="/2022/04/03/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95-3-%E9%93%BE%E8%A1%A8/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/03/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95-3-%E9%93%BE%E8%A1%A8/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -515,10 +1036,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>SpringMVC 中控制器方法获取到请求参数的几种方式以及如何处理乱码问题，主要介绍了 @RequestParam，@Requestheader 以及 @CookieValue 三个获取请求头中相关信息的注解。</p>
+          <p>链表是一种物理存储单元上非连续、非顺序的存储结构，数据元素的逻辑顺序是通过链表中的指针链接次序实现的。该篇 blog 介绍了单向链表、双向链表和怎么用环形单向链表解决约瑟夫环的b</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/03/13/SpringMVC%E5%AD%A6%E4%B9%A0-3-%E8%8E%B7%E5%8F%96%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0/">
+              <a class="btn" href="/2022/04/03/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95-3-%E9%93%BE%E8%A1%A8/">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -542,7 +1063,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://joeyshelby.github.io/2022/03/13/SpringMVC%E5%AD%A6%E4%B9%A0-2-RequestMapping%E6%B3%A8%E8%A7%A3/">
+    <link itemprop="mainEntityOfPage" href="https://joeyshelby.github.io/2022/04/03/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95-1-%E7%A8%80%E7%96%8F%E6%95%B0%E7%BB%84/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -556,7 +1077,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/03/13/SpringMVC%E5%AD%A6%E4%B9%A0-2-RequestMapping%E6%B3%A8%E8%A7%A3/" class="post-title-link" itemprop="url">SpringMVC学习-2-RequestMapping注解</a>
+            <a href="/2022/04/03/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95-1-%E7%A8%80%E7%96%8F%E6%95%B0%E7%BB%84/" class="post-title-link" itemprop="url">Java数据结构和算法-1-稀疏数组</a>
         </h2>
 
         <div class="post-meta">
@@ -566,7 +1087,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-03-13 10:24:46" itemprop="dateCreated datePublished" datetime="2022-03-13T10:24:46+08:00">2022-03-13</time>
+              <time title="创建时间：2022-04-03 16:51:50" itemprop="dateCreated datePublished" datetime="2022-04-03T16:51:50+08:00">2022-04-03</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -578,7 +1099,7 @@
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%A6%E4%B9%A0/SpringMVC/" itemprop="url" rel="index"><span itemprop="name">SpringMVC</span></a>
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">数据结构与算法</span></a>
                 </span>
             </span>
 
@@ -591,8 +1112,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2022/03/13/SpringMVC%E5%AD%A6%E4%B9%A0-2-RequestMapping%E6%B3%A8%E8%A7%A3/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/13/SpringMVC%E5%AD%A6%E4%B9%A0-2-RequestMapping%E6%B3%A8%E8%A7%A3/" itemprop="commentCount"></span>
+    <a title="valine" href="/2022/04/03/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95-1-%E7%A8%80%E7%96%8F%E6%95%B0%E7%BB%84/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/03/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95-1-%E7%A8%80%E7%96%8F%E6%95%B0%E7%BB%84/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -607,492 +1128,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>RequestMapping 注解是 SpringMVC 中一个十分重要的注解。该笔记介绍了它的功能，应用的场景，各属性以及其他特性。</p>
+          <p>稀疏数组是一种在特定情况下可以节约内存空间的数据结构，本篇 blog 介绍了稀疏数组的定义，思路分析。并使用 Java 语言实现了该数据结构。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/03/13/SpringMVC%E5%AD%A6%E4%B9%A0-2-RequestMapping%E6%B3%A8%E8%A7%A3/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://joeyshelby.github.io/2022/03/07/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Joey Shelby">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JoeyShelby">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/07/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/" class="post-title-link" itemprop="url">SpringMVC 学习-1-入门</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-03-07 11:37:22 / 修改时间：11:39:33" itemprop="dateCreated datePublished" datetime="2022-03-07T11:37:22+08:00">2022-03-07</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%A6%E4%B9%A0/SpringMVC/" itemprop="url" rel="index"><span itemprop="name">SpringMVC</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/03/07/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/07/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>SpringMVC 学习的第一部分，主要介绍了什么是 SpringMVC。并通过使用 SpringMVC 框架实现 HelloWorld 程序介绍了如何在 IDEA 中使用 SpringMVC 框架实现简单的 web 项目。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/07/SpringMVC%E5%AD%A6%E4%B9%A0-1-%E6%A6%82%E8%BF%B0/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://joeyshelby.github.io/2022/03/04/Spring%E5%AD%A6%E4%B9%A0-5-%E4%BA%8B%E5%8A%A1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Joey Shelby">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JoeyShelby">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/04/Spring%E5%AD%A6%E4%B9%A0-5-%E4%BA%8B%E5%8A%A1/" class="post-title-link" itemprop="url">Spring学习-5-事务</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-04 16:11:42" itemprop="dateCreated datePublished" datetime="2022-03-04T16:11:42+08:00">2022-03-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-05 08:52:41" itemprop="dateModified" datetime="2022-03-05T08:52:41+08:00">2022-03-05</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%A6%E4%B9%A0/Spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/03/04/Spring%E5%AD%A6%E4%B9%A0-5-%E4%BA%8B%E5%8A%A1/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/04/Spring%E5%AD%A6%E4%B9%A0-5-%E4%BA%8B%E5%8A%A1/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Spring支持数据库事务操作。可以通过注解方式或xml配置文件方式方便地使用Spring事务功能。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/04/Spring%E5%AD%A6%E4%B9%A0-5-%E4%BA%8B%E5%8A%A1/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://joeyshelby.github.io/2022/03/04/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95-1-%E6%95%B0%E7%BB%84/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Joey Shelby">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JoeyShelby">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/04/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95-1-%E6%95%B0%E7%BB%84/" class="post-title-link" itemprop="url">代码随想录-1-数组</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-04 16:07:21" itemprop="dateCreated datePublished" datetime="2022-03-04T16:07:21+08:00">2022-03-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-20 15:52:20" itemprop="dateModified" datetime="2022-03-20T15:52:20+08:00">2022-03-20</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%80%BB%E7%BB%93/" itemprop="url" rel="index"><span itemprop="name">总结</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%80%BB%E7%BB%93/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95/" itemprop="url" rel="index"><span itemprop="name">代码随想录</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/03/04/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95-1-%E6%95%B0%E7%BB%84/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/04/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95-1-%E6%95%B0%E7%BB%84/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>《代码随想录》数组部分刷题总结，数组部分主要包括二分法、双指针法、滑动窗口和模拟行为。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/04/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95-1-%E6%95%B0%E7%BB%84/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://joeyshelby.github.io/2022/03/02/Spring%E5%AD%A6%E4%B9%A0-4-JdbcTemplete/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Joey Shelby">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JoeyShelby">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/02/Spring%E5%AD%A6%E4%B9%A0-4-JdbcTemplete/" class="post-title-link" itemprop="url">Spring学习-4-JdbcTemplate</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-02 16:14:25" itemprop="dateCreated datePublished" datetime="2022-03-02T16:14:25+08:00">2022-03-02</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%A6%E4%B9%A0/Spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/03/02/Spring%E5%AD%A6%E4%B9%A0-4-JdbcTemplete/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/02/Spring%E5%AD%A6%E4%B9%A0-4-JdbcTemplete/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>JdbcTemplate是Spring对原始JDBC封装之后提供的一个操作数据库的工具类。可以用来在Spring项目中方便地对数据库进行增删改查操作和批量的数据处理。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/02/Spring%E5%AD%A6%E4%B9%A0-4-JdbcTemplete/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://joeyshelby.github.io/2022/02/27/JUnit%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%BB%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Joey Shelby">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JoeyShelby">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/02/27/JUnit%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%BB%93/" class="post-title-link" itemprop="url">JUnit使用小结</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-02-27 17:29:38" itemprop="dateCreated datePublished" datetime="2022-02-27T17:29:38+08:00">2022-02-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-20 15:54:19" itemprop="dateModified" datetime="2022-03-20T15:54:19+08:00">2022-03-20</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%80%BB%E7%BB%93/" itemprop="url" rel="index"><span itemprop="name">总结</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%80%BB%E7%BB%93/Junit/" itemprop="url" rel="index"><span itemprop="name">Junit</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/02/27/JUnit%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%BB%93/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/02/27/JUnit%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%BB%93/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>使用JUnit单元测试框架一段时间后的小结，主要包括JUnit简介、在IDEA中使用JUnit的简单方法以及在使用JUnit时的一些注意事项。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/02/27/JUnit%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%BB%93/">
+              <a class="btn" href="/2022/04/03/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95-1-%E7%A8%80%E7%96%8F%E6%95%B0%E7%BB%84/">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1115,7 +1154,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1181,20 +1220,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-count">41</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">14</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
