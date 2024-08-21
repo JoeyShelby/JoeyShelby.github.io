@@ -65,23 +65,21 @@
                     document.getElementById('type-name').textContent = '未知类别';
                 }
 
-                // 列出当前目录下的博客文件
-                const responseFiles = await fetch('/blogs/' + currentCategory + '/');
-                const fileListText = await responseFiles.text();
-                const fileLinks = fileListText.match(/href="([^"]*)"/g);
-                if (fileLinks) {
-                    fileLinks.forEach(link => {
-                        const fileName = link.match(/href="([^"]*)"/)[1];
-                        if (!fileName.endsWith('/')) {
-                            const li = document.createElement('li');
-                            const a = document.createElement('a');
-                            a.href = '/blogs/' + currentCategory + '/' + fileName;
-                            a.textContent = fileName;
-                            li.appendChild(a);
-                            document.getElementById('blog-list').appendChild(li);
-                        }
-                    });
-                }
+                // 使用 GitHub API 列出博客文件
+                const responseFiles = await fetch(`https://api.github.com/repos/joeyshelby/joeyshelby.github.io/contents/blogs/${currentCategory}`);
+                const fileList = await responseFiles.json();
+                const blogList = document.getElementById('blog-list');
+
+                fileList.forEach(file => {
+                    if (file.type === 'file') {
+                        const li = document.createElement('li');
+                        const a = document.createElement('a');
+                        a.href = `/blogs/${currentCategory}/${file.name}`;
+                        a.textContent = file.name;
+                        li.appendChild(a);
+                        blogList.appendChild(li);
+                    }
+                });
             } catch (error) {
                 console.error('Error loading configuration or blog files:', error);
             }
