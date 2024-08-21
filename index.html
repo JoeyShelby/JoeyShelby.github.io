@@ -1,1 +1,94 @@
-<p>Hello World!</p>
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joey's Blog</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f4;
+        }
+
+        .banner {
+            background-color: #007acc;
+            color: white;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .container {
+            display: flex;
+            width: 80%;
+            margin-top: 20px;
+        }
+
+        .sidebar {
+            width: 20%;
+            background-color: #eee;
+            padding: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .content {
+            width: 75%;
+            margin-left: 5%;
+        }
+
+        .blog-item {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="banner">哟，你发现了Joey的博客</div>
+    <div class="container">
+        <div class="sidebar">
+            <h3>博客种类</h3>
+            <ul id="blog-types">
+                <!-- 博客类型会在这里动态生成 -->
+            </ul>
+        </div>
+        <div class="content">
+            <!-- 在这里你可以动态显示或手动添加博客列表 -->
+            <div class="blog-item">
+                <h2>博客标题 1</h2>
+                <p>这是博客内容摘要...</p>
+            </div>
+            <div class="blog-item">
+                <h2>博客标题 2</h2>
+                <p>这是博客内容摘要...</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        fetch('config.yaml')
+            .then(response => response.text())
+            .then(text => {
+                const yaml = jsyaml.load(text);
+                const blogTypes = yaml.blog_types;
+                const sidebar = document.getElementById('blog-types');
+                for (const [folder, type] of Object.entries(blogTypes)) {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a href="blogs/${folder}/">${type}</a>`;
+                    sidebar.appendChild(li);
+                }
+            })
+            .catch(error => console.error('Error loading config.yaml:', error));
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+</body>
+
+</html>
