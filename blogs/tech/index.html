@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客分类</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .blog-list {
+            list-style: none;
+            padding: 0;
+        }
+        .blog-list li {
+            margin-bottom: 10px;
+        }
+        .blog-list a {
+            text-decoration: none;
+            color: #007acc;
+        }
+        .blog-list a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="type-name">博客类型</h1>
+        <ul id="blog-list" class="blog-list">
+            <!-- 博客文件列表会在这里动态生成 -->
+        </ul>
+    </div>
+    <script>
+        async function loadConfigAndListBlogs() {
+            try {
+                // 获取当前路径
+                const path = window.location.pathname.split('/').filter(Boolean);
+                const currentCategory = path[1] || '';
+
+                // 加载 config.yaml
+                const response = await fetch('/config.yaml');
+                const yamlText = await response.text();
+                const yaml = jsyaml.load(yamlText);
+
+                // 获取博客类型名称
+                const type = yaml.blog_types[currentCategory];
+                if (type) {
+                    document.getElementById('type-name').textContent = type;
+                } else {
+                    document.getElementById('type-name').textContent = '未知类别';
+                }
+
+                // 列出当前目录下的博客文件
+                const responseFiles = await fetch('/blogs/' + currentCategory + '/');
+                const fileListText = await responseFiles.text();
+                const fileLinks = fileListText.match(/href="([^"]*)"/g);
+                if (fileLinks) {
+                    fileLinks.forEach(link => {
+                        const fileName = link.match(/href="([^"]*)"/)[1];
+                        if (!fileName.endsWith('/')) {
+                            const li = document.createElement('li');
+                            const a = document.createElement('a');
+                            a.href = '/blogs/' + currentCategory + '/' + fileName;
+                            a.textContent = fileName;
+                            li.appendChild(a);
+                            document.getElementById('blog-list').appendChild(li);
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading configuration or blog files:', error);
+            }
+        }
+
+        loadConfigAndListBlogs();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+</body>
+</html>
