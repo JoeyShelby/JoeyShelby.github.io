@@ -23,6 +23,21 @@
             width: 100%;
             text-align: center;
             font-size: 24px;
+            position: relative;
+        }
+
+        .banner .back-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .banner .back-link:hover {
+            text-decoration: underline;
         }
 
         .container {
@@ -31,15 +46,19 @@
             margin-top: 20px;
         }
 
-        .sidebar {
-            width: 20%;
-            background-color: #eee;
+        .sidebar,
+        .content {
+            width: 50%;
             padding: 10px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         }
 
+        .sidebar {
+            background-color: #eee;
+        }
+
         .content {
-            width: 75%;
+            background-color: white;
             margin-left: 5%;
         }
 
@@ -49,11 +68,22 @@
             margin-bottom: 10px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         }
+
+        .blog-item a {
+            text-decoration: none;
+            color: #007acc;
+        }
+
+        .blog-item a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 
 <body>
-    <div class="banner">哟，你发现了Joey的博客</div>
+    <div class="banner">
+        哟，你发现了Joey的博客
+    </div>
     <div class="container">
         <div class="sidebar">
             <h3>博客种类</h3>
@@ -62,33 +92,59 @@
             </ul>
         </div>
         <div class="content">
-            <!-- 在这里你可以动态显示或手动添加博客列表 -->
-            <div class="blog-item">
-                <h2>博客标题 1</h2>
-                <p>这是博客内容摘要...</p>
-            </div>
-            <div class="blog-item">
-                <h2>博客标题 2</h2>
-                <p>这是博客内容摘要...</p>
-            </div>
+            <h3>最新博客</h3>
+            <ul id="blog-list">
+                <!-- 博客列表会在这里动态生成 -->
+            </ul>
         </div>
     </div>
-    <script>
-        fetch('config.yaml')
-            .then(response => response.text())
-            .then(text => {
-                const yaml = jsyaml.load(text);
-                const blogTypes = yaml.blog_types;
-                const sidebar = document.getElementById('blog-types');
-                for (const [folder, type] of Object.entries(blogTypes)) {
-                    const li = document.createElement('li');
-                    li.innerHTML = `<a href="blogs/${folder}/">${type}</a>`;
-                    sidebar.appendChild(li);
-                }
-            })
-            .catch(error => console.error('Error loading config.yaml:', error));
-    </script>
     <script src="/js/js-yaml.min.js"></script>
+    <script>
+        // Function to fetch and display blog types
+        function loadBlogTypes() {
+            fetch('config.yaml')
+                .then(response => response.text())
+                .then(text => {
+                    const yaml = jsyaml.load(text);
+                    const blogTypes = yaml.blog_types;
+                    const sidebar = document.getElementById('blog-types');
+                    for (const [folder, type] of Object.entries(blogTypes)) {
+                        const li = document.createElement('li');
+                        li.innerHTML = `<a href="blogs/${folder}/">${type}</a>`;
+                        sidebar.appendChild(li);
+                    }
+                })
+                .catch(error => console.error('Error loading config.yaml:', error));
+        }
+
+        // Function to fetch and display blog list
+        function loadBlogList() {
+            const repo = 'joeyshelby/JoeyShelby.github.io'; // 替换为你的仓库名
+            const path = 'blogs/'; // 博客文件夹路径
+
+            fetch(`https://api.github.com/repos/${repo}/contents/${path}`)
+                .then(response => response.json())
+                .then(files => {
+                    const blogList = document.getElementById('blog-list');
+                    files
+                        .filter(file => file.name.endsWith('.html') && file.name !== 'index.html')
+                        .forEach(file => {
+                            const li = document.createElement('li');
+                            li.classList.add('blog-item');
+                            li.innerHTML = `<a href="${file.download_url}">${file.name}</a>`;
+                            blogList.appendChild(li);
+                        });
+                })
+                .catch(error => console.error('Error fetching files from GitHub API:', error));
+        }
+
+
+
+
+        // Load blog types and list on page load
+        loadBlogTypes();
+        loadBlogList();
+    </script>
 </body>
 
 </html>

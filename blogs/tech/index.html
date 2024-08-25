@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
             padding: 20px;
             background-color: #f4f4f4;
         }
+
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -18,32 +20,59 @@
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         h1 {
             font-size: 24px;
             margin-bottom: 10px;
         }
+
         .blog-list {
             list-style: none;
             padding: 0;
         }
+
         .blog-list li {
             margin-bottom: 10px;
         }
+
         .blog-list a {
             text-decoration: none;
             color: #007acc;
         }
+
         .blog-list a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            text-align: center;
+            border-top: 2px solid #336699;
+            padding-top: 10px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        a {
+            color: #336699;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1 id="type-name">博客类型</h1>
         <ul id="blog-list" class="blog-list">
             <!-- 博客文件列表会在这里动态生成 -->
         </ul>
+        <div class="footer">
+            <p><a href="javascript:history.back()">返回</a> | © 2024 JoeyShelby. 版权所有.</p>
+        </div>
     </div>
     <script>
         async function loadConfigAndListBlogs() {
@@ -89,4 +118,5 @@
     </script>
     <script src="/js/js-yaml.min.js"></script>
 </body>
+
 </html>
